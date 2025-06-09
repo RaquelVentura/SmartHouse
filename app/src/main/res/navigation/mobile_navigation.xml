@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.smarthouse.ui.views.fragments.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_dispositivos"
+        android:name="com.example.smarthouse.ui.views.fragments.DispositivosFragment"
+        android:label="Dispositivos"
+        tools:layout="@layout/fragment_dispositivos" />
+
+    <fragment
+        android:id="@+id/nav_gestion_usuarios"
+        android:name="com.example.smarthouse.ui.views.fragments.GestionUsuariosFragment"
+        android:label="Usuarios"
+        tools:layout="@layout/fragment_gestion_usuarios" />
+
+    <fragment
+        android:id="@+id/nav_reportes"
+        android:name="com.example.smarthouse.ui.views.fragments.ReportesFragment"
+        android:label="Reportes"
+        tools:layout="@layout/fragment_reportes" />
+
+    <fragment
+        android:id="@+id/nav_historial"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialAlarmasFragment"
+        android:label="Historial"
+        tools:layout="@layout/fragment_historial_alarmas" />
+
+    <fragment
+        android:id="@+id/nav_historial_acciones"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialAccionesFragment"
+        android:label="Historial de Acciones"
+        tools:layout="@layout/fragment_historial_acciones" />
+
+    <fragment
+        android:id="@+id/nav_configuracion"
+        android:name="com.example.smarthouse.ui.views.fragments.ConfiguracionFragment"
+        android:label="Configuracion"
+        tools:layout="@layout/fragment_configuracion" />
+
+</navigation>
