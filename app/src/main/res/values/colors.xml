@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bg_pantalla_carga">#ecf0f1</color>
+    <color name="azul_claro">#00B5F8</color>
+    <color name="azul_oscuro">#025E7D</color>
 </resources>
