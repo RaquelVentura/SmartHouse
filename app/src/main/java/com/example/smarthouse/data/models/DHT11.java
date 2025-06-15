@@ -1,15 +1,15 @@
 package com.example.smarthouse.data.models;
 
-public class DTH11 {
+public class DHT11 {
     private String id;
     private String ubicacion;
     private String tipo;
     private String temperatura;
     private String humedad;
 
-    public DTH11() {}
+    public DHT11() {}
 
-    public DTH11(String id, String ubicacion, String tipo, String temperatura, String humedad) {
+    public DHT11(String id, String ubicacion, String tipo, String temperatura, String humedad) {
         this.id = id;
         this.ubicacion = ubicacion;
         this.tipo = tipo;
