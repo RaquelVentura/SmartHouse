@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.views.activities.LoginActivity">
+
+    <TextView
+        android:id="@+id/tvTituloLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="115dp"
+        android:gravity="center"
+        android:text="INICIA SESION AQUI"
+        android:textColor="@color/azul"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSubtituloLogin"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:gravity="center"
+        android:text="Bienvenido de nuevo, te hemos extrañado!"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTituloLogin" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/campoCorreo"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        app:boxBackgroundColor="@color/bg_campos_texto"
+        app:boxStrokeColor="@color/selector_campos_texto"
+        app:cursorColor="@color/azul_claro"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/hint_campos_texto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSubtituloLogin"
+        app:startIconDrawable="@drawable/email"
+        app:startIconTint="@color/bg_icono_formulario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtCorreoEmpleado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo electrónico..."
+            android:inputType="text"
+            android:outlineSpotShadowColor="@color/azul"
+            android:textColor="@color/texto_formulario" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/campoPassword"
+        style="@style/ThemeOverlay.Material3.AutoCompleteTextView.OutlinedBox"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="18dp"
+        app:boxStrokeColor="@color/selector_campos_texto"
+        app:endIconMode="password_toggle"
+        app:cursorColor="@color/azul_claro"
+        app:boxBackgroundColor="@color/bg_campos_texto"
+        app:hintTextColor="@color/hint_campos_texto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/campoCorreo"
+        app:endIconTint="@color/bg_icono_formulario"
+        app:startIconDrawable="@drawable/possword"
+        app:startIconTint="@color/bg_icono_formulario">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cotraseña..."
+            android:inputType="textPassword"
+            android:outlineSpotShadowColor="@color/azul"
+            android:textColor="@color/texto_formulario" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvolvidoSuContraseña"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="31dp"
+        android:text="¿olvidaste tu contraseña?"
+        android:textColor="@color/azul_claro"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/campoPassword" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="81dp"
+        android:text="INICIAR SESION"
+        android:textColor="@color/white"
+        android:onClick="login"
+        android:backgroundTint="@color/azul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvolvidoSuContraseña" />
+
+    <TextView
+        android:id="@+id/tvOpcionesLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:gravity="center"
+        android:text="O continuar con"
+        android:textColor="@color/azul_claro"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <ImageButton
+        android:id="@+id/imgvLoginGoogle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="184dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="185dp"
+        android:onClick="loginConGoogle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOpcionesLogin"
+        app:srcCompat="@drawable/googleg_standard_color_18" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

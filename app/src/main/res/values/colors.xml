@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bg_pantalla_carga">#ecf0f1</color>
+    <color name="azul">#1f41bb</color>
+    <color name="azul_claro">#00B5F8</color>
+    <color name="azul_oscuro">#025E7D</color>
+    <color name="gris_oscuro">#2D2D2D</color>
+    <color name="hint_campos_texto">#2D2D2D</color>
+    <color name="bg_campos_texto">#f1f4ff</color>
+    <color name="bg_icono_formulario">#1f41bb</color>
+    <color name="texto_formulario">#1f41bb</color>
 </resources>

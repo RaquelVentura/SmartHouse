@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hint_campos_texto">#FFFFFF</color>
+    <color name="bg_campos_texto">#3D4149</color>
+    <color name="bg_icono_formulario">#00B5F8</color>
+    <color name="texto_formulario">#00B5F8</color>
+</resources>
