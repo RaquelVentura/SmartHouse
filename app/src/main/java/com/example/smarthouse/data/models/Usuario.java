@@ -10,17 +10,21 @@ public class Usuario {
 
     private String correo;
 
-    private String pinAcceso;
-
     public Usuario() {
     }
 
-    public Usuario(String id, String nombreCompleto, String rol, String correo, String pinAcceso) {
+    public Usuario(String nombreCompleto, String rol, String correo) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.rol = rol;
         this.correo = correo;
-        this.pinAcceso = pinAcceso;
+    }
+
+    public Usuario(String id, String nombreCompleto, String rol, String correo) {
+        this.id = id;
+        this.nombreCompleto = nombreCompleto;
+        this.rol = rol;
+        this.correo = correo;
     }
 
     public String getId() {
@@ -53,13 +57,5 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         this.correo = correo;
-    }
-
-    public String getPinAcceso() {
-        return pinAcceso;
-    }
-
-    public void setPinAcceso(String pinAcceso) {
-        this.pinAcceso = pinAcceso;
     }
 }

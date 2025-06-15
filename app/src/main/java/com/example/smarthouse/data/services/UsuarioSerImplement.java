@@ -16,8 +16,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class UsuarioSerImplement implements UsuarioServicio{
+    private final UsuarioRepositorio usuarioRepositorio = new UsuarioRepoImplement();
+    @Override
+    public Task<Void> crearUsuarioPendiente(Usuario usuario, String token) {
+        return usuarioRepositorio.crearUsuarioPendiente(usuario, token);
+    }
     @Override
     public Task<Void> loginConCorreo(String correo, String contrasenna) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -77,7 +83,6 @@ public class UsuarioSerImplement implements UsuarioServicio{
     public Task<Void> validarCuentaGoogleConToken(String idToken, String token) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        UsuarioRepositorio repo = new UsuarioRepoImplement();
 
         return auth.signInWithCredential(credential).continueWithTask(task -> {
             if (!task.isSuccessful()) return Tasks.forException(task.getException());
@@ -98,12 +103,30 @@ public class UsuarioSerImplement implements UsuarioServicio{
                 Usuario nuevo = snapshotTask.getResult().getValue(Usuario.class);
                 nuevo.setId(user.getUid());
 
-                return repo.crearUsuario(nuevo).continueWithTask(t -> {
+                return usuarioRepositorio.crearUsuario(nuevo).continueWithTask(t -> {
                     if (!t.isSuccessful()) return Tasks.forException(t.getException());
                     UsuarioSesion.establecerUsuario(nuevo);
                     return ref.removeValue(); // Elimina el registro pendiente
                 });
             });
         });
+    }
+
+    @Override
+    public Task<List<Usuario>> obtenerTodosLosUsuarios() {
+        return usuarioRepositorio.obtenerTodosLosUsuarios();
+    }
+
+    @Override
+    public Task<Usuario> obtenerUsuarioPorId(String uid) {
+        return usuarioRepositorio.obtenerUsuarioPorId(uid);
+    }
+
+    public Task<Void> actualizarUsuario(Usuario usuario) {
+        return usuarioRepositorio.actualizarUsuario(usuario);
+    }
+
+    public Task<Void> eliminarUsuario(String uid) {
+        return usuarioRepositorio.eliminarUsuario(uid);
     }
 }

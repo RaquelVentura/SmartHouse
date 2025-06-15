@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Simula la pantalla de carga esperando 5 segundos para la apertura de la pantalla de inicio de sesion
+        // Simula la pantalla de carga esperando 3 segundos para la apertura de la pantalla de inicio de sesion
         new Handler().postDelayed(() -> {
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
             finish();
-        }, 5000);
+        }, 3000);
     }
 }

@@ -31,7 +31,6 @@ import com.example.smarthouse.data.repositories.UsuarioRepoImplement;
 import com.example.smarthouse.data.repositories.UsuarioRepositorio;
 import com.example.smarthouse.data.services.UsuarioSerImplement;
 import com.example.smarthouse.data.services.UsuarioServicio;
-import com.example.smarthouse.ui.utils.GeneradorDePinAcceso;
 import com.example.smarthouse.ui.utils.UsuarioSesion;
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
@@ -78,13 +77,11 @@ public class LoginActivity extends AppCompatActivity {
                             .addOnCompleteListener(t -> {
                                 if (t.isSuccessful()) {
                                     String uid = firebaseUser.getUid();
-                                    String pinAcceso = GeneradorDePinAcceso.generarPin();
                                     Usuario admin = new Usuario(
                                             uid,
                                             "Administrador del Sistema",
                                             "administrador",
-                                            "vc21033@ues.edu.sv",
-                                            pinAcceso
+                                            "vc21033@ues.edu.sv"
                                     );
                                     UsuarioRepositorio repositorio = new UsuarioRepoImplement();
                                     repositorio.crearUsuario(admin).addOnSuccessListener(aVoid -> {
@@ -126,13 +123,14 @@ public class LoginActivity extends AppCompatActivity {
         GetGoogleIdOption getGoogleIdOption = new GetGoogleIdOption
                 .Builder()
                 .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("433659660280-55sj1kji3llfn91efckmiv7qpbqhqt0o.apps.googleusercontent.com")
+                .setServerClientId("963422096390-usph82511t7k5p788qapbopvdvo2apu8.apps.googleusercontent.com")
                 .build();
 
         GetCredentialRequest request = new GetCredentialRequest
                 .Builder()
                 .addCredentialOption(getGoogleIdOption)
                 .build();
+
         credentialManager.getCredentialAsync(
                 this,
                 request,
@@ -164,7 +162,6 @@ public class LoginActivity extends AppCompatActivity {
                         redirigirPorRol(UsuarioSesion.obtenerUsuario().getRol());
                     })
                     .addOnFailureListener(e -> {
-                        System.out.println("HA LLEGADO AL ERROR, AHORA VA A VALIDAR QUE ESTE EN LOS PENDIENTES");
                         if (e.getMessage().toLowerCase().contains("no está registrado")) {
                             pedirTokenDeRegistro(googleIdTokenCredential.getIdToken());
                         } else {
@@ -207,10 +204,10 @@ public class LoginActivity extends AppCompatActivity {
     private void redirigirPorRol(String rol) {
         Intent intent;
         switch (rol) {
-            case "administrador":
+            case "Administrador":
                 intent = new Intent(this, MenuActivity.class);
                 break;
-            case "residente":
+            case "Residente":
                 intent = new Intent(this, MenuActivity.class);
                 break;
             default:
