@@ -2,8 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="green_safe">#4CAF50</color>
-    <color name="red_danger">#F44336</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="gray">#9E9E9E</color>
+    <color name="bg_pantalla_carga">#ecf0f1</color>
+    <color name="azul">#1f41bb</color>
+    <color name="azul_claro">#00B5F8</color>
+    <color name="azul_oscuro">#025E7D</color>
+    <color name="gris_oscuro">#2D2D2D</color>
+    <color name="hint_campos_texto">#2D2D2D</color>
+    <color name="bg_campos_texto">#f1f4ff</color>
+    <color name="bg_icono_formulario">#1f41bb</color>
+    <color name="texto_formulario">#1f41bb</color>
 </resources>
