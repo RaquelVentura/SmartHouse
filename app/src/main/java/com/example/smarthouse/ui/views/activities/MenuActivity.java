@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.data.helpers.CambiosDispositivosHelper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,6 +43,7 @@ public class MenuActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menu);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //CambiosDispositivosHelper.iniciarEscuchaCambiosProgramados();
     }
 
     @Override

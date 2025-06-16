@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.helpers.CambiosDispositivosHelper;
 import com.example.smarthouse.data.models.CambioDispositivo;
+import com.example.smarthouse.data.models.UnidadDeSalida;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -121,7 +122,6 @@ public class DispositivosDialogFragment extends DialogFragment {
                 true);
         timePicker.show();
     }
-
     private void programarCambioDispositivo() {
         if (fechaSeleccionada == null || horaSeleccionada == null) {
             Toast.makeText(getContext(), "Seleccione fecha y hora", Toast.LENGTH_SHORT).show();
@@ -136,39 +136,25 @@ public class DispositivosDialogFragment extends DialogFragment {
             boolean nuevoEstado = radioGroupEstado.getCheckedRadioButtonId() == R.id.radioAccion1 ?
                     !estadoActual : estadoActual;
 
-            String usuarioId = FirebaseAuth.getInstance().getCurrentUser() != null ?
-                    FirebaseAuth.getInstance().getCurrentUser().getUid() : "anonimo";
-            String usuarioNombre = FirebaseAuth.getInstance().getCurrentUser() != null ?
-                    FirebaseAuth.getInstance().getCurrentUser().getDisplayName() : "Anónimo";
-
-            CambioDispositivo cambio = new CambioDispositivo(
-                    FirebaseDatabase.getInstance().getReference("cambiosDispositivos").push().getKey(),
-                    "programado",
-                    fechaSeleccionada,
-                    horaSeleccionada,
-                    nuevoEstado,
+            UnidadDeSalida unidad = new UnidadDeSalida(
                     dispositivoId,
-                    dispositivoTipo,
                     dispositivoNombre,
-                    usuarioId,
-                    usuarioNombre,
-                    timestamp,
-                    false
+                    estadoActual,
+                    dispositivoTipo
             );
 
-            FirebaseDatabase.getInstance().getReference("cambiosDispositivos")
-                    .child(cambio.getId())
-                    .setValue(cambio.toMap())
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(getContext(), "Cambio programado con éxito", Toast.LENGTH_SHORT).show();
-                        dismiss();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Error al programar cambio", Toast.LENGTH_SHORT).show();
-                    });
+            CambiosDispositivosHelper.registrarCambio(
+                    unidad,
+                    nuevoEstado,
+                    "programado",
+                    timestamp
+            );
 
+            Toast.makeText(getContext(), "Cambio programado correctamente", Toast.LENGTH_SHORT).show();
+            dismiss();
         } catch (Exception e) {
             Toast.makeText(getContext(), "Error en formato de fecha/hora", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
         }
     }
 }
