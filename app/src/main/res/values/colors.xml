@@ -11,4 +11,11 @@
     <color name="bg_campos_texto">#f1f4ff</color>
     <color name="bg_icono_formulario">#1f41bb</color>
     <color name="texto_formulario">#1f41bb</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="green_safe">#4CAF50</color>
+    <color name="green_safe_light">#81C784</color>
+    <color name="green_safe_dark">#388E3C</color>
+    <color name="red_unsafe">#F44336</color>
+    <color name="gray_safe_status">#9E9E9E</color>
+    <color name="red_danger">#F44336</color>
 </resources>

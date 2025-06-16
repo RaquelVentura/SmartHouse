@@ -17,7 +17,9 @@ public class CambioDispositivo {
     private long timestamp;
     private boolean ejecutado;
 
-    public CambioDispositivo(String id, String tipoCambio, String fecha, String hora, boolean estado, String idUnidadSalida, String tipoDispositivo, String nombreDispositivo, String usuarioId, String usuarioNombre, long timestamp, boolean ejecutado) {
+    public CambioDispositivo(String id, String tipoCambio, String fecha, String hora, boolean estado,
+                             String idUnidadSalida, String tipoDispositivo, String nombreDispositivo,
+                             String usuarioId, String usuarioNombre, long timestamp, boolean ejecutado) {
         this.id = id;
         this.tipoCambio = tipoCambio;
         this.fecha = fecha;
@@ -148,4 +150,3 @@ public class CambioDispositivo {
         return map;
     }
 }
-
