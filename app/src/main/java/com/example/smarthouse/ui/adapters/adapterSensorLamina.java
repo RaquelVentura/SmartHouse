@@ -54,39 +54,6 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
             holder.imgLamina.setImageResource(R.drawable.ventana_cerrada);
             holder.lbEstado.setText("Estado: " + "Cerrado");
         }
-
-        holder.btnCambiarEstado.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean nuevoEstado = !lamina.getEstado();
-                lamina.setEstado(nuevoEstado);
-
-                if (nuevoEstado) {
-                    holder.imgLamina.setImageResource(R.drawable.ventana_abierta);
-                    holder.lbEstado.setText("Estado: " +"Abierto");
-                } else {
-                    holder.imgLamina.setImageResource(R.drawable.ventana_cerrada);
-                    holder.lbEstado.setText("Estado: " +"Cerrado");
-                }
-
-                holder.lbHabitacion.setText("Ubicación: "+lamina.getUbicacion());
-
-                DatabaseReference dbRef = com.google.firebase.database.FirebaseDatabase.getInstance()
-                        .getReference("unidadesSalida")
-                        .child(lamina.getId());
-
-                dbRef.child("estado").setValue(nuevoEstado);
-            }
-        });
-
-        holder.btnProgramarCambio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
-                DispositivosDialogFragment dialog = new DispositivosDialogFragment();
-                dialog.show(fragmentManager, "DispositivosDialog");
-            }
-        });
     }
 
     @Override
@@ -97,8 +64,6 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
     public class LaminaViewHolder extends RecyclerView.ViewHolder {
         ImageView imgLamina;
         TextView lbNombre, lbHabitacion, lbEstado;
-        Button btnCambiarEstado;
-        ImageButton btnProgramarCambio;
 
         public LaminaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,8 +71,6 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
             lbNombre = itemView.findViewById(R.id.lbNombreLamina);
             lbHabitacion = itemView.findViewById(R.id.lbHabitacionLamina);
             lbEstado = itemView.findViewById(R.id.lbEstadoLamina);
-            btnCambiarEstado = itemView.findViewById(R.id.btnCambiarEstadoLamina);
-            btnProgramarCambio = itemView.findViewById(R.id.btnAbrirDialogProgramarCambioLamina);
         }
     }
 }

@@ -111,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="VENTANAS"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:gravity="start"
@@ -119,6 +120,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerVentanas"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

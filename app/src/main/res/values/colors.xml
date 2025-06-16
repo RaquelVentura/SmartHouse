@@ -11,4 +11,23 @@
     <color name="bg_campos_texto">#f1f4ff</color>
     <color name="bg_icono_formulario">#1f41bb</color>
     <color name="texto_formulario">#1f41bb</color>
+    <color name="green_safe">#4CAF50</color>
+    <color name="green_safe_light">#81C784</color>
+    <color name="green_safe_dark">#388E3C</color>
+    <color name="red_unsafe">#F44336</color>
+    <color name="gray_safe_status">#9E9E9E</color>
+    <color name="red_danger">#F44336</color>
+    <color name="gray">#607D8B</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+    <color name="orange">#FF9800</color>
+    <color name="light_green">#E8F5E9</color>
+    <color name="border_green">#C8E6C9</color>
+    <color name="light_orange">#FFF3E0</color>
+    <color name="border_orange">#FFE0B2</color>
+    <color name="primary">#6200EE</color>
+    <color name="primary_light">#F1E6FF</color>
+    <color name="green_light">#E8F5E9</color>
+    <color name="gray_light">#EEEEEE</color>
+    <color name="gray_dark">#757575</color>
 </resources>
