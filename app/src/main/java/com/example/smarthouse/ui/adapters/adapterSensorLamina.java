@@ -168,8 +168,7 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
             lbNombre = itemView.findViewById(R.id.lbNombreLamina);
             lbHabitacion = itemView.findViewById(R.id.lbHabitacionLamina);
             lbEstado = itemView.findViewById(R.id.lbEstadoLamina);
-            btnCambiarEstado = itemView.findViewById(R.id.btnCambiarEstadoLamina);
-            btnProgramarCambio = itemView.findViewById(R.id.btnAbrirDialogProgramarCambioLamina);
+
         }
     }
 }

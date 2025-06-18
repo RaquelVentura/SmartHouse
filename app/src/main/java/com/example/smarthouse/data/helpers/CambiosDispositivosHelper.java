@@ -27,7 +27,6 @@ public class CambiosDispositivosHelper {
                 FirebaseDatabase.getInstance().getReference("unidadesSalida");
         private static ValueEventListener cambiosListener;
 
-        // Método para iniciar la escucha permanente
         public static void iniciarEscuchaCambiosProgramados() {
             if (cambiosListener != null) {
                 cambiosRef.removeEventListener(cambiosListener);
@@ -52,8 +51,6 @@ public class CambiosDispositivosHelper {
                         }
                     });
         }
-
-        // Método para detener la escucha (opcional)
         public static void detenerEscuchaCambios() {
             if (cambiosListener != null) {
                 cambiosRef.removeEventListener(cambiosListener);
@@ -61,7 +58,6 @@ public class CambiosDispositivosHelper {
             }
         }
 
-        // Método para registrar cambios (mejorado)
         public static void registrarCambio(UnidadDeSalida dispositivo, boolean nuevoEstado,
                                            String tipoCambio, long timestamp) {
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

@@ -28,6 +28,18 @@
     <color name="primary">#6200EE</color>
     <color name="primary_light">#F1E6FF</color>
     <color name="green_light">#E8F5E9</color>
+    <color name="chip_mode_secure">#E3F2FD</color>
+    <color name="chip_sensor">#E8F5E9</color>
+    <color name="chip_warning">#FFF3E0</color>
+
+    <!-- Alarm status colors -->
+    <color name="red_alarm">#FF5252</color>
+    <!-- Gray shades -->
     <color name="gray_light">#EEEEEE</color>
+    <color name="gray_medium">#9E9E9E</color>
     <color name="gray_dark">#757575</color>
+
+    <!-- Chip colors -->
+    <color name="chip_background">#F5F5F5</color>
+    <color name="chip_stroke">#E0E0E0</color>
 </resources>
