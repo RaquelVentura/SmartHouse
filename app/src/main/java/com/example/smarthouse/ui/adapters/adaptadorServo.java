@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.data.helpers.AlarmaHelper;
 import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.UnidadDeSalida;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +71,9 @@ public class adaptadorServo extends RecyclerView.Adapter<adaptadorServo.ServoVie
             dbRef.child("estado").setValue(nuevoEstado)
                     .addOnSuccessListener(aVoid -> {
                         registrarCambioDispositivo(puerta, nuevoEstado, "inmediato");
+                        if (nuevoEstado) {
+                            verificarModoSeguroYActivarAlarma(puerta);
+                        }
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(context, "Error al cambiar estado", Toast.LENGTH_SHORT).show();
@@ -78,6 +81,21 @@ public class adaptadorServo extends RecyclerView.Adapter<adaptadorServo.ServoVie
                         actualizarVista(holder, puerta);
                         Log.e("Firebase", "Error al actualizar estado", e);
                     });
+        });
+    }
+
+    private void verificarModoSeguroYActivarAlarma(UnidadDeSalida puerta) {
+        DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
+        modoSeguroRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Boolean modoSeguroActivo = task.getResult().getValue(Boolean.class);
+                if (Boolean.TRUE.equals(modoSeguroActivo)) {
+                    AlarmaHelper.crearAlarma(context, "APERTURA_MODO_SEGURO", puerta.getUbicacion());
+                    Toast.makeText(context, "¡Intrusión detectada en modo seguro!", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Log.e("adaptadorServo", "Error al verificar modo seguro", task.getException());
+            }
         });
     }
 

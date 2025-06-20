@@ -15,8 +15,8 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.smarthouse.R;
-import com.example.smarthouse.data.models.HistorialAcceso;
-import com.example.smarthouse.ui.adapters.adaptadorHistorialAcceso;
+import com.example.smarthouse.data.models.Alarma;
+import com.example.smarthouse.ui.adapters.adaptadorHistorialAlarma;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,74 +24,64 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
 public class HistorialAlarmasFragment extends Fragment {
-    private adaptadorHistorialAcceso adaptador;
+
+    private RecyclerView recyclerAlarmas;
+    private SearchView searchView;
+    private adaptadorHistorialAlarma adaptador;
+    private List<Alarma> listaAlarmas = new ArrayList<>();
     private DatabaseReference alarmasRef;
-    private ValueEventListener valueEventListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_historial_alarmas, container, false);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerAlarmasAccesos);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptador = new adaptadorHistorialAcceso(new ArrayList<>(),getContext());
-        recyclerView.setAdapter(adaptador);
+        recyclerAlarmas = view.findViewById(R.id.recyclerAlarmasAccesos);
+        searchView = view.findViewById(R.id.searchViewAlarmasAccesos);
 
-        SearchView searchView = view.findViewById(R.id.searchViewAlarmasAccesos);
+        recyclerAlarmas.setLayoutManager(new LinearLayoutManager(getContext()));
+        adaptador = new adaptadorHistorialAlarma(listaAlarmas, getContext());
+        recyclerAlarmas.setAdapter(adaptador);
+
+        cargarAlarmasDesdeFirebase();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
+            public boolean onQueryTextSubmit(String query) {
+                adaptador.getFilter().filter(query);
+                return false;
+            }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adaptador.getFilter().filter(newText);
-                return true;
+                return false;
             }
         });
 
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        cargarHistorialAlarmas();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (valueEventListener != null) {
-            alarmasRef.removeEventListener(valueEventListener);
-        }
-    }
-    private void cargarHistorialAlarmas() {
-        alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas/historial");
-        valueEventListener = alarmasRef.addValueEventListener(new ValueEventListener() {
+    private void cargarAlarmasDesdeFirebase() {
+        alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas");
+        alarmasRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<HistorialAcceso> historial = new ArrayList<>();
-                for (DataSnapshot item : snapshot.getChildren()) {
-                    HistorialAcceso acceso = item.getValue(HistorialAcceso.class);
-                    if (acceso != null) {
-                        acceso.setId(item.getKey());
-                        if (acceso.getFecha() == null) acceso.setFecha("--/--/----");
-                        if (acceso.getHora() == null) acceso.setHora("--:--");
-                        if (acceso.getTipoEvento() == null) acceso.setTipoEvento("EVENTO_DESCONOCIDO");
-                        historial.add(acceso);
+                listaAlarmas.clear();
+                for (DataSnapshot alarmaSnapshot : snapshot.getChildren()) {
+                    Alarma alarma = alarmaSnapshot.getValue(Alarma.class);
+                    if (alarma != null) {
+                        listaAlarmas.add(alarma);
                     }
                 }
-                adaptador.actualizarDatos(historial);
+                adaptador.actualizarDatos(listaAlarmas);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("HistorialAlarmas", "Error en Firebase", error.toException());
+                Toast.makeText(getContext(), "Error al cargar alarmas", Toast.LENGTH_SHORT).show();
             }
         });
     }

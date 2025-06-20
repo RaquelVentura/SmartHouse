@@ -5,7 +5,7 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HistorialAcceso {
+public class Alarma {
     private String id;
     private String fecha;
     private String hora;
@@ -14,9 +14,9 @@ public class HistorialAcceso {
     private String resultado;
     private String ubicacion;
 
-    public HistorialAcceso() {}
+    public Alarma() {}
 
-    public HistorialAcceso(String id, String fecha, String hora, String tipoEvento, String usuarioEmail, String resultado, String ubicacion) {
+    public Alarma(String id, String fecha, String hora, String tipoEvento, String usuarioEmail, String resultado, String ubicacion) {
         this.id = id;
         this.fecha = fecha;
         this.hora = hora;
@@ -93,8 +93,8 @@ public class HistorialAcceso {
         map.put("ubicacion", ubicacion);
         return map;
     }
-    public static HistorialAcceso fromDataSnapshot(DataSnapshot snapshot) {
-        HistorialAcceso acceso = snapshot.getValue(HistorialAcceso.class);
+    public static Alarma fromDataSnapshot(DataSnapshot snapshot) {
+        Alarma acceso = snapshot.getValue(Alarma.class);
         if (acceso != null) {
             acceso.setId(snapshot.getKey());
         }

@@ -6,15 +6,17 @@ public class DHT11 {
     private String tipo;
     private String temperatura;
     private String humedad;
+    private Boolean estado;
 
     public DHT11() {}
 
-    public DHT11(String id, String ubicacion, String tipo, String temperatura, String humedad) {
+    public DHT11(String id, String ubicacion, String tipo, String temperatura, String humedad, Boolean estado) {
         this.id = id;
         this.ubicacion = ubicacion;
         this.tipo = tipo;
         this.temperatura = temperatura;
         this.humedad = humedad;
+        this.estado = estado;
     }
 
     public String getId() {
@@ -55,5 +57,13 @@ public class DHT11 {
 
     public void setHumedad(String humedad) {
         this.humedad = humedad;
+    }
+
+    public Boolean getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 }

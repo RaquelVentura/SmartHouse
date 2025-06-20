@@ -106,5 +106,11 @@
                 android:textSize="16sp"
                 tools:text="24°C"/>
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnCambiarEstadoVentilador"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ON/OFF ventilador" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

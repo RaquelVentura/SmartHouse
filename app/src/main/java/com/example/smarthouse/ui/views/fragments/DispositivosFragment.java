@@ -2,7 +2,6 @@ package com.example.smarthouse.ui.views.fragments;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
-import com.example.smarthouse.data.helpers.AlarmaHelper;
 import com.example.smarthouse.data.models.DHT11;
-import com.example.smarthouse.data.models.HistorialAcceso;
 import com.example.smarthouse.data.models.MQ2;
 import com.example.smarthouse.data.models.UnidadDeSalida;
 import com.example.smarthouse.databinding.FragmentDispositivosBinding;
@@ -27,18 +25,14 @@ import com.example.smarthouse.ui.adapters.adaptadorSensorGas;
 import com.example.smarthouse.ui.adapters.adaptadorServo;
 import com.example.smarthouse.ui.adapters.adapterSensorLamina;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class DispositivosFragment extends Fragment {
     private FragmentDispositivosBinding binding;
@@ -162,6 +156,7 @@ public class DispositivosFragment extends Fragment {
             btnModoSeguro.setText("ACTIVAR MODO SEGURO");
         }
     }
+
     private void modoSeguro() {
         btnModoSeguro.setEnabled(false);
         btnModoSeguro.setText("ACTIVANDO...");
@@ -193,10 +188,6 @@ public class DispositivosFragment extends Fragment {
                             if (dispositivosActualizados[0] == totalDispositivos[0]) {
                                 alarmasRef.child("modo_seguro").setValue(true)
                                         .addOnSuccessListener(aVoid1 -> {
-                                            crearRegistroHistorial(
-                                                    "MODO_SEGURO",
-                                                    "Toda la casa"
-                                            );
                                             Toast.makeText(getContext(),
                                                     "Modo seguro activado por " +
                                                             (FirebaseAuth.getInstance().getCurrentUser() != null ?
@@ -221,50 +212,6 @@ public class DispositivosFragment extends Fragment {
         }
     }
 
-    private void activarModoSeguroEnFirebase() {
-        DatabaseReference alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas");
-
-        alarmasRef.child("configuracion/modo_seguro").setValue(true)
-                .addOnSuccessListener(aVoid -> {
-                    AlarmaHelper.crearRegistroHistorial(getContext(), "MODO_SEGURO", "Toda la casa", true);
-                    Toast.makeText(getContext(), "Modo seguro activado correctamente", Toast.LENGTH_LONG).show();
-                    btnModoSeguro.setEnabled(true);
-                    verificarEstadoModoSeguro();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(),
-                            "Error al activar modo seguro: " + e.getMessage(),
-                            Toast.LENGTH_SHORT).show();
-                    btnModoSeguro.setEnabled(true);
-                });
-    }
-    private void crearRegistroHistorial(String tipoEvento, String ubicacion) {
-        DatabaseReference historialRef = FirebaseDatabase.getInstance().getReference("alarmas/historial");
-        String id = historialRef.push().getKey();
-
-        SimpleDateFormat sdfFecha = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        SimpleDateFormat sdfHora = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        String fecha = sdfFecha.format(new Date());
-        String hora = sdfHora.format(new Date());
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user != null ? user.getEmail() : "Sistema";
-
-        HistorialAcceso registro = new HistorialAcceso(
-                id,
-                fecha,
-                hora,
-                tipoEvento,
-                userEmail,
-                "Activada",
-                ubicacion
-        );
-
-        historialRef.child(id).setValue(registro.toMap())
-                .addOnFailureListener(e -> {
-                    Log.e("DispositivosFragment", "Error al guardar historial", e);
-                });
-    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

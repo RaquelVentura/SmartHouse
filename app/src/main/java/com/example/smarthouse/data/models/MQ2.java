@@ -4,18 +4,16 @@ public class MQ2 {
     private String id;
     private String nombre;
     private String ubicacion;
-    private String estado;
-    private String valor;
+    private Boolean estado;
 
     public MQ2() {
     }
 
-    public MQ2(String id, String nombre, String ubicacion, String estado, String valor) {
+    public MQ2(String id, String nombre, String ubicacion, Boolean estado) {
         this.id = id;
         this.nombre = nombre;
         this.ubicacion = ubicacion;
         this.estado = estado;
-        this.valor = valor;
     }
 
     public String getId() {
@@ -42,19 +40,11 @@ public class MQ2 {
         this.ubicacion = ubicacion;
     }
 
-    public String getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
-    }
-
-    public String getValor() {
-        return valor;
-    }
-
-    public void setValor(String valor) {
-        this.valor = valor;
     }
 }

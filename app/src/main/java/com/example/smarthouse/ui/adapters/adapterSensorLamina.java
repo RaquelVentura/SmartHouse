@@ -61,25 +61,25 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
         if (lamina.getEstado()) {
             holder.imgLamina.setImageResource(R.drawable.ventana_abierta);
             holder.lbEstado.setText("Estado: Abierto");
-            holder.btnCambiarEstado.setText("CERRAR");
+            //holder.btnCambiarEstado.setText("CERRAR");
         } else {
             holder.imgLamina.setImageResource(R.drawable.ventana_cerrada);
             holder.lbEstado.setText("Estado: Cerrado");
-            holder.btnCambiarEstado.setText("ABRIR");
+          //  holder.btnCambiarEstado.setText("ABRIR");
         }
 
-        holder.btnCambiarEstado.setOnClickListener(v -> {
+        /*holder.btnCambiarEstado.setOnClickListener(v -> {
             boolean nuevoEstado = !lamina.getEstado();
             lamina.setEstado(nuevoEstado);
 
             if (nuevoEstado) {
                 holder.imgLamina.setImageResource(R.drawable.ventana_abierta);
                 holder.lbEstado.setText("Estado: Abierto");
-                holder.btnCambiarEstado.setText("CERRAR");
+               // holder.btnCambiarEstado.setText("CERRAR");
             } else {
                 holder.imgLamina.setImageResource(R.drawable.ventana_cerrada);
                 holder.lbEstado.setText("Estado: Cerrado");
-                holder.btnCambiarEstado.setText("ABRIR");
+                //holder.btnCambiarEstado.setText("ABRIR");
             }
 
             DatabaseReference dbRef = FirebaseDatabase.getInstance()
@@ -94,8 +94,8 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
                         Toast.makeText(context, "Error al cambiar estado", Toast.LENGTH_SHORT).show();
                         Log.e("Firebase", "Error al actualizar estado", e);
                     });
-        });
-
+        });*/
+/*
         holder.btnProgramarCambio.setOnClickListener(v -> {
             FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
             DispositivosDialogFragment dialog = DispositivosDialogFragment.newInstance(
@@ -105,7 +105,7 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
                     lamina.getEstado()
             );
             dialog.show(fragmentManager, "DispositivosDialog");
-        });
+        });*/
     }
 
     private void registrarCambioDispositivo(UnidadDeSalida lamina, boolean nuevoEstado, String tipoCambio) {
@@ -168,6 +168,7 @@ public class adapterSensorLamina extends RecyclerView.Adapter<adapterSensorLamin
             lbNombre = itemView.findViewById(R.id.lbNombreLamina);
             lbHabitacion = itemView.findViewById(R.id.lbHabitacionLamina);
             lbEstado = itemView.findViewById(R.id.lbEstadoLamina);
+
 
         }
     }

@@ -42,14 +42,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="8dp">
 
             <ImageView
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_calendar"
-                android:layout_marginEnd="4dp"
-                app:tint="@color/gray_dark" />
+                app:tint="@color/gray_dark"
+                android:layout_marginEnd="4dp"/>
 
             <TextView
                 android:id="@+id/lbFechaAlarma"
@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="16/06/2025"
                 android:textSize="14sp"
+                android:textColor="@color/black"
                 android:layout_marginEnd="16dp"/>
 
             <ImageView
@@ -71,84 +72,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10:20:00"
-                android:textSize="14sp"/>
+                android:textSize="14sp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lbTipoAlarma"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_vertical">
+            android:text="Tipo: Apertura"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="4dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado:"
-                android:textSize="14sp"
-                android:textColor="@color/gray_dark"
-                android:layout_marginEnd="4dp"/>
-
-            <TextView
-                android:id="@+id/lbResultadoAlarma"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Alarma activada"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="@color/red"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/lbUbicacionAlarma"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:text="Ubicación: Puerta principal"
+            android:textSize="14sp"
+            android:textColor="@color/black" />
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_user"
-                app:tint="@color/gray_dark"
-                android:layout_marginEnd="4dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Activado por:"
-                android:textSize="14sp"
-                android:textColor="@color/gray_dark"
-                android:layout_marginEnd="4dp"/>
-
-            <TextView
-                android:id="@+id/lbUsuarioActivador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cris"
-                android:textSize="14sp"
-                android:textStyle="bold"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_info"
-                app:tint="@color/gray_dark"
-                android:layout_marginEnd="4dp"/>
-
-            <TextView
-                android:id="@+id/lbTipoActivacion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tipo: Modo seguro"
-                android:textSize="14sp"
-                android:textColor="@color/gray_dark"/>
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -59,28 +59,6 @@
                     android:textSize="14sp"
                     android:textColor="#555555" />
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Valor:"
-                    android:textSize="14sp"
-                    android:textColor="#333333" />
-
-                <TextView
-                    android:id="@+id/lbValorMq2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" Leyendo"
-                    android:textSize="14sp"
-                    android:textColor="#333333" />
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,6 +79,12 @@
                     android:textSize="14sp"
                     android:textColor="#333333" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnCambiarEstadoSensorGas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activar Alarma" />
 
         </LinearLayout>
     </LinearLayout>
