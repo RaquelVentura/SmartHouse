@@ -1,18 +1,49 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.SmartHouse" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/azul_claro_vivo</item>
+        <item name="colorOnPrimary">@color/blanco_hielo</item>
+        <item name="colorPrimaryContainer">@color/azul_profundo</item>
+        <item name="colorOnPrimaryContainer">@color/blanco_hielo</item>
+        <item name="materialButtonStyle">@style/Widget.SmartHouse.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.SmartHouse.Button.Outlined</item>
+        <item name="cardViewStyle">@style/Widget.SmartHouse.CardView</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.SmartHouse.Title</item>
+    </style>
+    <style name="Theme.SmartHouse" parent="Base.Theme.SmartHouse">
     </style>
 
-    <style name="Theme.SmartHouse" parent="Base.Theme.SmartHouse" />
-
-    <style name="Theme.SmartHouse.NoActionBar">
+    <style name="Theme.SmartHouse.NoActionBar" parent="Base.Theme.SmartHouse">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.SmartHouse.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Widget.SmartHouse.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/azul_claro_vivo</item>
+        <item name="android:textColor">@color/blanco_hielo</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.SmartHouse.Medium</item>
+    </style>
 
-    <style name="Theme.SmartHouse.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Widget.SmartHouse.Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/azul_claro_vivo</item>
+        <item name="android:textColor">@color/azul_claro_vivo</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.SmartHouse.Medium</item>
+    </style>
+
+    <style name="Widget.SmartHouse.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/celeste_nieve</item>
+        <item name="strokeColor">@color/azul_claro_vivo</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+
+    <style name="TextAppearance.SmartHouse.Title" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ShapeAppearance.SmartHouse.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
 </resources>

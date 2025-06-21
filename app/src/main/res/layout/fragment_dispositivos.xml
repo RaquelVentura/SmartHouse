@@ -2,13 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/btnCerrarCasa">
+        android:layout_above="@id/btnCerrarCasa"
+        android:background="?attr/colorSurface">
 
         <LinearLayout
             android:orientation="vertical"
@@ -21,117 +23,140 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_marginTop="8dp">
-
-                <SearchView
-                    android:id="@+id/searchViewDispositivos"
-                    android:layout_width="169dp"
-                    android:layout_height="wrap_content" />
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceVariant"
+                android:padding="12dp"
+                android:elevation="2dp">
 
                 <Button
                     android:id="@+id/button"
-                    android:layout_width="103dp"
-                    android:layout_height="wrap_content"
-                    android:text="ON" />
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:text="ON"
+                    android:textColor="@color/blanco_hielo"
+                    app:backgroundTint="@color/azul_claro_vivo"
+                    app:strokeColor="@color/azul_claro_vivo"
+                    app:strokeWidth="1dp"/>
 
                 <Button
                     android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
                     android:layout_marginStart="16dp"
-                    android:text="OFF" />
+                    android:text="OFF"
+                    android:textColor="@color/azul_profundo"
+                    app:backgroundTint="@android:color/transparent"
+                    app:strokeColor="@color/azul_claro_vivo"
+                    app:strokeWidth="1dp"/>
             </LinearLayout>
 
             <TextView
                 android:id="@+id/textView4"
+                style="@style/SectionHeaderText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="LUCES"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="start"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp" />
+                android:drawableStart="@drawable/ic_light"
+                android:drawableTint="@color/azul_claro_vivo"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerLeds"
+                style="@style/DeviceCardStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/textView5"
+                style="@style/SectionHeaderText"
+                android:text="PUERTA PRINCIPAL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="PUERTA PRINCIPAL"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="start"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp" />
+                android:drawableStart="@drawable/ic_door"
+                android:drawableTint="@color/azul_claro_vivo"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerServo"
+                style="@style/DeviceCardStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/textView6"
+                style="@style/SectionHeaderText"
+                android:text="TEMPERATURA Y HUMEDAD"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TEMPERATURA Y HUMEDAD"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="start"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp" />
+                android:drawableStart="@drawable/ic_thermostat"
+                android:drawableTint="@color/azul_claro_vivo"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerDHT11"
+                style="@style/DeviceCardStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/textView7"
+                style="@style/SectionHeaderText"
+                android:text="SENSOR DE GAS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SENSOR DE GAS"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="start"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="8dp" />
+                android:drawableStart="@drawable/ic_gas"
+                android:drawableTint="@color/azul_claro_vivo"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerSensorGas"
+                style="@style/DeviceCardStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
 
             <TextView
                 android:id="@+id/textView9"
+                style="@style/SectionHeaderText"
+                android:text="VENTANAS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="VENTANAS"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:gravity="start"
                 android:layout_marginTop="24dp"
-                android:layout_marginBottom="12dp" />
+                android:drawableStart="@drawable/ic_window"
+                android:drawableTint="@color/azul_claro_vivo"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerVentanas"
+                style="@style/DeviceCardStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
 
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnCerrarCasa"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:text="Modo Seguro"
-        android:textColor="@android:color/white"
+        android:textColor="@color/blanco_hielo"
         android:textStyle="bold"
-        android:backgroundTint="#570E0E" />
+        app:icon="@drawable/ic_security"
+        app:iconTint="@color/blanco_hielo"
+        app:backgroundTint="@color/rojo_emergencia"
+        app:elevation="8dp"
+        app:strokeColor="@color/blanco_hielo"
+        app:strokeWidth="1dp"/>
 </RelativeLayout>

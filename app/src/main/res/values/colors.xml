@@ -31,15 +31,17 @@
     <color name="chip_mode_secure">#E3F2FD</color>
     <color name="chip_sensor">#E8F5E9</color>
     <color name="chip_warning">#FFF3E0</color>
-
-    <!-- Alarm status colors -->
     <color name="red_alarm">#FF5252</color>
-    <!-- Gray shades -->
     <color name="gray_light">#EEEEEE</color>
     <color name="gray_medium">#9E9E9E</color>
     <color name="gray_dark">#757575</color>
-
-    <!-- Chip colors -->
     <color name="chip_background">#F5F5F5</color>
     <color name="chip_stroke">#E0E0E0</color>
+    <color name="blanco_hielo">#F6F1F1</color>
+    <color name="celeste_nieve">#AFD3E2</color>
+    <color name="azul_claro_vivo">#19A7CE</color>
+    <color name="azul_profundo">#146C94</color>
+    <color name="rojo_emergencia">#D32F2F</color>
+    <color name="rojo_emergencia_modo_oscuro">#C62828</color>
+    <color name="gris_medio">#1E1E1E</color>
 </resources>

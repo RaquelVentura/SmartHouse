@@ -1,7 +1,15 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="Base.Theme.SmartHouse" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorSurface">@color/gris_oscuro</item>
+        <item name="colorOnSurface">@color/blanco_hielo</item>
+        <item name="colorSurfaceVariant">@color/gris_medio</item>
+        <item name="colorOnSurfaceVariant">@color/blanco_hielo</item>
+
+        <item name="cardViewStyle">@style/Widget.SmartHouse.CardView.Night</item>
+    </style>
+
+    <style name="Widget.SmartHouse.CardView.Night" parent="Widget.SmartHouse.CardView">
+        <item name="cardBackgroundColor">@color/gris_medio</item>
+        <item name="strokeColor">@color/azul_claro_vivo</item>
     </style>
 </resources>

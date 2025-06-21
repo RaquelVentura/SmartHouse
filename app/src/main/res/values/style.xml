@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/azul_claro_vivo</item>
+        <item name="colorPrimaryVariant">@color/azul_profundo</item>
+        <item name="colorOnPrimary">@color/blanco_hielo</item>
+        <item name="colorSecondary">@color/celeste_nieve</item>
+        <item name="colorOnSecondary">@color/azul_profundo</item>
+        <item name="android:windowBackground">@color/blanco_hielo</item>
+        <item name="toolbarStyle">@style/CustomToolbar</item>
+    </style>
+
+    <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/azul_profundo</item>
+        <item name="android:minHeight">72dp</item>
+        <item name="titleTextColor">@color/blanco_hielo</item>
+        <item name="subtitleTextColor">@color/celeste_nieve</item>
+    </style>
+    <style name="NavigationViewStyle" parent="Widget.MaterialComponents.NavigationView">
+        <item name="android:textColorSecondary">@color/blanco_hielo</item>
+        <item name="colorControlNormal">@color/celeste_nieve</item>
+        <item name="colorControlActivated">@color/blanco_hielo</item>
+    </style>
+
+    <style name="SectionHeaderText" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+        <item name="android:drawablePadding">8dp</item>
+    </style>
+
+    <style name="DeviceCardStyle" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
+        <item name="strokeColor">?attr/colorOutline</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="BodyText" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <style name="CaptionText" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+</resources>
