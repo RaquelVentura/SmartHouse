@@ -33,7 +33,6 @@ public class HistorialAccionesFragment extends Fragment {
     private List<CambioDispositivo> listaCambios = new ArrayList<>();
 
     public HistorialAccionesFragment() {
-        // Constructor vacío requerido
     }
 
     @Override
@@ -41,14 +40,10 @@ public class HistorialAccionesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_historial_acciones, container, false);
 
-        // Inicializar vistas
         rvHistorial = view.findViewById(R.id.rvHistorial);
         progressBar = view.findViewById(R.id.progressBar);
-
-        // Configurar RecyclerView
         setupRecyclerView();
 
-        // Cargar datos de Firebase
         cargarHistorialDesdeFirebase();
 
         return view;

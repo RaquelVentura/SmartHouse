@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation2"
+    app:startDestination="@+id/nav_cambios_dispositivos">
+
+    <fragment
+        android:id="@+id/nav_cambios_dispositivos"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialAccionesFragment"
+        android:label="Cambios Dispositivos"
+        tools:layout="@layout/fragment_historial_acciones" />
+
+    <fragment
+        android:id="@+id/nav_historial_accesos"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialAccesosFragment"
+        android:label="Historial de Acceso"
+        tools:layout="@layout/fragment_historial_alarmas" />
+
+    <fragment
+        android:id="@+id/nav_historial_alarnas"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialAlarmasFragment"
+        android:label="Historial de Alarmas"
+        tools:layout="@layout/fragment_historial_alarmas" />
+</navigation>
