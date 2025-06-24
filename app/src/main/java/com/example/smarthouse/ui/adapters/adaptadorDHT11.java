@@ -65,6 +65,29 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
                         Log.e("Firebase", "Error al actualizar estado", e);
                     });
         });
+
+        holder.btnModoAutomatico.setOnClickListener(v -> {
+            String modoActual = dht11.getModo();
+            String nuevoModo = "manual".equalsIgnoreCase(modoActual) ? "automatico" : "manual";
+
+            dht11.setModo(nuevoModo);
+            notifyItemChanged(holder.getAdapterPosition());
+
+            DatabaseReference dbRef = FirebaseDatabase.getInstance()
+                    .getReference("DHT11")
+                    .child(dht11.getId());
+
+            dbRef.child("modo").setValue(nuevoModo)
+                    .addOnSuccessListener(aVoid ->
+                            Toast.makeText(context, "Modo cambiado a " + nuevoModo, Toast.LENGTH_SHORT).show()
+                    )
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error al cambiar el modo", Toast.LENGTH_SHORT).show();
+                        dht11.setModo(modoActual);
+                        notifyItemChanged(holder.getAdapterPosition());
+                        Log.e("Firebase", "Error al cambiar modo", e);
+                    });
+        });
     }
 
     @Override
@@ -80,7 +103,7 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
     public static class DHT11ViewHolder extends RecyclerView.ViewHolder {
         TextView lbHumedad, lbTemperatura, lbUbicacion;
         ImageView imgDHT11;
-        Button btnCambiarEstadoVentilador;
+        Button btnCambiarEstadoVentilador, btnModoAutomatico;
 
         public DHT11ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +112,7 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
             lbUbicacion = itemView.findViewById(R.id.lbUbicacion);
             imgDHT11 = itemView.findViewById(R.id.imgDTH11);
             btnCambiarEstadoVentilador = itemView.findViewById(R.id.btnCambiarEstadoVentilador);
+            btnModoAutomatico = itemView.findViewById(R.id.btnModoAutomaticoVentiladores);
         }
     }
 
@@ -119,12 +143,23 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
             holder.imgDHT11.setImageResource(R.drawable.img_3);
         }
 
-        if (dht11.getEstado()) {
-            holder.btnCambiarEstadoVentilador.setText("Apagar ventilador");
+        String modo = dht11.getModo();
+        if (modo != null && modo.trim().equalsIgnoreCase("automatico")) {
+            //aqui con esa propiedad GONE se oculta el boton que no estara dispponible si esta en modo automatico
+            holder.btnCambiarEstadoVentilador.setVisibility(View.GONE);
+            holder.btnModoAutomatico.setText("Activar modo manual");
         } else {
-            holder.btnCambiarEstadoVentilador.setText("Encender ventilador");
+            holder.btnCambiarEstadoVentilador.setVisibility(View.VISIBLE);
+
+            Boolean estado = dht11.getEstado();
+            holder.btnCambiarEstadoVentilador.setText(
+                    estado != null && estado ? "Apagar ventilador" : "Encender ventilador"
+            );
+
+            holder.btnModoAutomatico.setText("Activar modo automático");
         }
     }
+
 
     private void registrarCambioDispositivo(DHT11 dht11, boolean nuevoEstado, String tipoCambio) {
         DatabaseReference cambiosRef = FirebaseDatabase.getInstance()

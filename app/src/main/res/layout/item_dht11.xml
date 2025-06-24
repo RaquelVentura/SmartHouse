@@ -112,5 +112,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ON/OFF ventilador" />
+
+        <Button
+            android:id="@+id/btnModoAutomaticoVentiladores"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="mod automatico ON/OFF" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

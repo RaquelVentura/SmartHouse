@@ -4,16 +4,18 @@ public class DHT11 {
     private String id;
     private String ubicacion;
     private String tipo;
+    private String modo;
     private String temperatura;
     private String humedad;
     private Boolean estado;
 
     public DHT11() {}
 
-    public DHT11(String id, String ubicacion, String tipo, String temperatura, String humedad, Boolean estado) {
+    public DHT11(String id, String ubicacion, String tipo, String modo, String temperatura, String humedad, Boolean estado) {
         this.id = id;
         this.ubicacion = ubicacion;
         this.tipo = tipo;
+        this.modo = modo;
         this.temperatura = temperatura;
         this.humedad = humedad;
         this.estado = estado;
@@ -41,6 +43,14 @@ public class DHT11 {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getModo() {
+        return modo;
+    }
+
+    public void setModo(String modo) {
+        this.modo = modo;
     }
 
     public String getTemperatura() {
