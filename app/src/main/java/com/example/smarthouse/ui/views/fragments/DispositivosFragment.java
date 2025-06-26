@@ -59,6 +59,27 @@ public class DispositivosFragment extends Fragment {
         binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         cargarDatosFirebase();
+        DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
+        modoSeguroRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Boolean estado = snapshot.getValue(Boolean.class);
+                if (Boolean.TRUE.equals(estado)) {
+                    btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
+                    btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                            ContextCompat.getColor(getContext(), R.color.green_safe)));
+                } else {
+                    btnModoSeguro.setText("ACTIVAR MODO SEGURO");
+                    btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                            ContextCompat.getColor(getContext(), R.color.red_danger)));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Error al leer modo seguro", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return root;
     }
@@ -145,24 +166,41 @@ public class DispositivosFragment extends Fragment {
                 break;
             }
         }
-
-        if (todasCerradas) {
-            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                    ContextCompat.getColor(getContext(), R.color.green_safe)));
-            btnModoSeguro.setText("MODO SEGURO ACTIVO");
-        } else {
-            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                    ContextCompat.getColor(getContext(), R.color.red_danger)));
-            btnModoSeguro.setText("ACTIVAR MODO SEGURO");
-        }
     }
 
     private void modoSeguro() {
         btnModoSeguro.setEnabled(false);
-        btnModoSeguro.setText("ACTIVANDO...");
+        btnModoSeguro.setText("PROCESANDO...");
 
+        DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
+
+        modoSeguroRef.get().addOnSuccessListener(snapshot -> {
+            Boolean modoActual = snapshot.getValue(Boolean.class);
+
+            if (Boolean.TRUE.equals(modoActual)) {
+                modoSeguroRef.setValue(false)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(getContext(), "Modo seguro desactivado", Toast.LENGTH_SHORT).show();
+                            btnModoSeguro.setEnabled(true);
+                            btnModoSeguro.setText("ACTIVAR MODO SEGURO");
+                            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                                    ContextCompat.getColor(getContext(), R.color.red_danger)));
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), "Error al desactivar modo seguro", Toast.LENGTH_SHORT).show();
+                            btnModoSeguro.setEnabled(true);
+                        });
+            } else {
+                activarModoSeguro();
+            }
+        }).addOnFailureListener(e -> {
+            Toast.makeText(getContext(), "Error al verificar el estado de modo seguro", Toast.LENGTH_SHORT).show();
+            btnModoSeguro.setEnabled(true);
+        });
+    }
+    private void activarModoSeguro() {
+        DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("unidadesSalida");
-        DatabaseReference alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas/configuracion");
 
         final int[] totalDispositivos = {0};
         final int[] dispositivosActualizados = {0};
@@ -176,7 +214,7 @@ public class DispositivosFragment extends Fragment {
         if (totalDispositivos[0] == 0) {
             Toast.makeText(getContext(), "No hay puertas/ventanas para cerrar", Toast.LENGTH_SHORT).show();
             btnModoSeguro.setEnabled(true);
-            btnModoSeguro.setText("MODO SEGURO");
+            btnModoSeguro.setText("ACTIVAR MODO SEGURO");
             return;
         }
 
@@ -186,7 +224,7 @@ public class DispositivosFragment extends Fragment {
                         .addOnSuccessListener(aVoid -> {
                             dispositivosActualizados[0]++;
                             if (dispositivosActualizados[0] == totalDispositivos[0]) {
-                                alarmasRef.child("modo_seguro").setValue(true)
+                                modoSeguroRef.setValue(true)
                                         .addOnSuccessListener(aVoid1 -> {
                                             Toast.makeText(getContext(),
                                                     "Modo seguro activado por " +
@@ -194,7 +232,9 @@ public class DispositivosFragment extends Fragment {
                                                                     FirebaseAuth.getInstance().getCurrentUser().getEmail() : "Sistema"),
                                                     Toast.LENGTH_LONG).show();
                                             btnModoSeguro.setEnabled(true);
-                                            verificarEstadoModoSeguro();
+                                            btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
+                                            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                                                    ContextCompat.getColor(getContext(), R.color.green_safe)));
                                         });
                             }
                         })
@@ -205,7 +245,7 @@ public class DispositivosFragment extends Fragment {
                                     Toast.LENGTH_SHORT).show();
                             if (dispositivosActualizados[0] == totalDispositivos[0]) {
                                 btnModoSeguro.setEnabled(true);
-                                verificarEstadoModoSeguro();
+                                btnModoSeguro.setText("ACTIVAR MODO SEGURO");
                             }
                         });
             }
