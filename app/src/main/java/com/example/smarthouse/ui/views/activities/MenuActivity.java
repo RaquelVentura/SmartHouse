@@ -1,10 +1,12 @@
 package com.example.smarthouse.ui.views.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.data.helpers.CambiosDispositivosHelper;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -30,20 +32,11 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMenu.toolbar);
-        binding.appBarMenu.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show();
-            }
-        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_dispositivos, R.id.nav_gestion_usuarios, R.id.nav_reportes, R.id.nav_historial, R.id.nav_historial_acciones ,R.id.nav_configuracion)
+                R.id.nav_home, R.id.nav_dispositivos, R.id.nav_gestion_usuarios, R.id.nav_reportes, R.id.nav_historial,R.id.nav_configuracion)
                 .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_menu);

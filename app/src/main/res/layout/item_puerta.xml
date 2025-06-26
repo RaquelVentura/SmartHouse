@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/imgPuerta"
+            android:layout_width="120dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/puerta_cerrada"
+            tools:srcCompat="@drawable/puerta_abierta" />
+
+        <TextView
+            android:id="@+id/lbUbicacionPuerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:textColor="?attr/colorOnSurface"
+            android:text="Ubicación"
+            tools:text="Entrada Principal" />
+
+        <TextView
+            android:id="@+id/lbEstadoPuerta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:text="Estado"
+            tools:text="Cerrada" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnCambiarEstadoPuerta"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:text="Cambiar estado"
+            android:textAllCaps="false"
+            style="@style/Widget.AppCompat.Button.Colored"
+            app:strokeWidth="1dp"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

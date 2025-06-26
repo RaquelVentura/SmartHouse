@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/imgDispositivo"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/img"
+            tools:srcCompat="@drawable/img_1" />
+
+        <TextView
+            android:id="@+id/lbNombreDispositivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:text="LUZ"
+            tools:text="LUZ" />
+
+        <TextView
+            android:id="@+id/lbHabitacionDispositivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:layout_marginTop="4dp"
+            android:text="ROOM  " />
+
+        <TextView
+            android:id="@+id/lbEstadoDispositivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:text="Cerrada" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="8dp"
+            android:paddingBottom="4dp">
+
+            <Button
+                android:id="@+id/btnCambiarEstadoDispositivo"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="ENCENDER"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"/>
+
+            <Space
+                android:layout_width="8dp"
+                android:layout_height="1dp" />
+
+            <ImageButton
+                android:id="@+id/btnAbrirDialogProgramarCambio"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                app:srcCompat="@drawable/icon_reloj"
+                android:contentDescription="Programar"/>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

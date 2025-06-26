@@ -2,36 +2,37 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_outline"
             android:title="@string/menu_home" />
+
         <item
             android:id="@+id/nav_dispositivos"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Dispositivos" />
+            android:icon="@drawable/ic_dipositivos"
+           android:title="Dispositivos" />
+
         <item
             android:id="@+id/nav_gestion_usuarios"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Gestion de Usuarios" />
+            android:icon="@drawable/ic_group"
+            android:title="Gestión de Usuarios" />
+
         <item
             android:id="@+id/nav_reportes"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_assessment"
             android:title="Reportes" />
+
         <item
             android:id="@+id/nav_historial"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Historial de Alarmas y Accesos" />
-        <item
-            android:id="@+id/nav_historial_acciones"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Historial de Acciones" />
+            android:icon="@drawable/ic_history"
+            android:title="Historial" />
+
         <item
             android:id="@+id/nav_configuracion"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Configuracion" />
+            android:icon="@drawable/outline_build_24"
+            android:title="Configuración" />
+
         <item
             android:id="@+id/btn_salir"
             android:icon="@drawable/icon_logout"

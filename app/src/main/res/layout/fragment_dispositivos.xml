@@ -1,17 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.views.fragments.DispositivosFragment">
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="dispositivos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:background="?attr/colorSurface">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnCerrarCasa"
+        android:background="?attr/colorSurface">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:background="?attr/colorSurfaceVariant"
+                android:padding="12dp"
+                android:elevation="2dp">
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:text="ON"
+                    android:textColor="@color/blanco_hielo"
+                    app:backgroundTint="@color/azul_claro_vivo"
+                    app:strokeColor="@color/azul_claro_vivo"
+                    app:strokeWidth="1dp"/>
+
+                <Button
+                    android:id="@+id/button2"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="120dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="16dp"
+                    android:text="OFF"
+                    android:textColor="@color/azul_profundo"
+                    app:backgroundTint="@android:color/transparent"
+                    app:strokeColor="@color/azul_claro_vivo"
+                    app:strokeWidth="1dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/SectionHeaderText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LUCES"
+                android:drawableStart="@drawable/ic_light"
+                android:drawableTint="@color/azul_claro_vivo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerLeds"
+                style="@style/DeviceCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
+
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/SectionHeaderText"
+                android:text="PUERTA PRINCIPAL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:drawableStart="@drawable/ic_door"
+                android:drawableTint="@color/azul_claro_vivo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerServo"
+                style="@style/DeviceCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
+
+            <TextView
+                android:id="@+id/textView6"
+                style="@style/SectionHeaderText"
+                android:text="TEMPERATURA Y HUMEDAD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:drawableStart="@drawable/ic_thermostat"
+                android:drawableTint="@color/azul_claro_vivo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerDHT11"
+                style="@style/DeviceCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
+
+            <TextView
+                android:id="@+id/textView7"
+                style="@style/SectionHeaderText"
+                android:text="SENSOR DE GAS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:drawableStart="@drawable/ic_gas"
+                android:drawableTint="@color/azul_claro_vivo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSensorGas"
+                style="@style/DeviceCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                style="@style/SectionHeaderText"
+                android:text="VENTANAS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:drawableStart="@drawable/ic_window"
+                android:drawableTint="@color/azul_claro_vivo"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerVentanas"
+                style="@style/DeviceCardStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:clipToPadding="false"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCerrarCasa"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:text="Modo Seguro"
+        android:textColor="@color/blanco_hielo"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_security"
+        app:iconTint="@color/blanco_hielo"
+        app:backgroundTint="@color/rojo_emergencia"
+        app:elevation="8dp"
+        app:strokeColor="@color/blanco_hielo"
+        app:strokeWidth="1dp"/>
+</RelativeLayout>

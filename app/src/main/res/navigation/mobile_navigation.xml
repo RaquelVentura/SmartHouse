@@ -31,15 +31,9 @@
 
     <fragment
         android:id="@+id/nav_historial"
-        android:name="com.example.smarthouse.ui.views.fragments.HistorialAlarmasFragment"
+        android:name="com.example.smarthouse.ui.views.fragments.HistorialFragment"
         android:label="Historial"
-        tools:layout="@layout/fragment_historial_alarmas" />
-
-    <fragment
-        android:id="@+id/nav_historial_acciones"
-        android:name="com.example.smarthouse.ui.views.fragments.HistorialAccionesFragment"
-        android:label="Historial de Acciones"
-        tools:layout="@layout/fragment_historial_acciones" />
+        tools:layout="@layout/fragment_historial" />
 
     <fragment
         android:id="@+id/nav_configuracion"
