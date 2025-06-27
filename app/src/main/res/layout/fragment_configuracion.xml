@@ -173,10 +173,10 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="64dp"
+                android:layout_height="57dp"
                 android:src="@drawable/ic_password"
-                app:tint="?attr/colorPrimary"/>
+                app:tint="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/btnCambiarContrasena"
@@ -210,8 +210,8 @@
             android:padding="16dp">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="65dp"
+                android:layout_height="60dp"
                 android:src="@drawable/password_manager"
                 app:tint="?attr/colorPrimary" />
 

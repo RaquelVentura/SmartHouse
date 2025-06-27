@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,13 @@ import android.widget.TextView;
 
 import com.example.smarthouse.R;
 
-public class ConfiguracionFragment extends Fragment {
+public class ConfiguracionFragment extends DialogFragment {
     private CardView btnTemaClaro, btnTemaOscuro, btnTemaSistema;
+    private TextView btnCambiarContrasenia, btnCambiarPin;
     private int temaActual;
 
     public ConfiguracionFragment() {
-        // Constructor público vacío requerido
+
     }
 
     public static ConfiguracionFragment newInstance() {
@@ -35,7 +37,21 @@ public class ConfiguracionFragment extends Fragment {
         btnTemaClaro = view.findViewById(R.id.btnTemaClaro);
         btnTemaOscuro = view.findViewById(R.id.btnTemaOscuro);
         btnTemaSistema = view.findViewById(R.id.btnTemaSistema);
+        btnCambiarContrasenia= view.findViewById(R.id.btnCambiarContrasena);
+        btnCambiarPin = view.findViewById(R.id.btnCambiarPin);
+        btnCambiarContrasenia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        btnCambiarPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CambioPinFragment cambioPinFragment = new CambioPinFragment();
+                cambioPinFragment.show(getChildFragmentManager(), "CambioPinDialog");
+            }
+        });
         // Configurar botones
         setupThemeButtons();
 
@@ -89,7 +105,6 @@ public class ConfiguracionFragment extends Fragment {
         // Cambiar color de fondo
         card.setCardBackgroundColor(seleccionado ? colorSeleccionado : colorNormal);
 
-        // Cambiar color del texto (si tienes TextView dentro)
         ViewGroup layout = (ViewGroup) card.getChildAt(0);
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
