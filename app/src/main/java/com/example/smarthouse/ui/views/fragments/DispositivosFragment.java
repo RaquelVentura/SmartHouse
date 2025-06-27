@@ -54,25 +54,26 @@ public class DispositivosFragment extends Fragment {
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_security),
                 null, null, null);
 
-        binding.recyclerLeds.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerServo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerDHT11.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerSensorGas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
+        if (binding != null && isAdded()) {
+            binding.recyclerLeds.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerServo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerDHT11.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerSensorGas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        }
         switchLuces.setOnClickListener(v -> {
             if (todasLasUnidades.isEmpty()) {
                 Toast.makeText(getContext(), "Dispositivos aún no cargados", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            boolean nuevoEstado = switchLuces.isChecked();
-            List<UnidadDeSalida> leds = new ArrayList<>();
-            for (UnidadDeSalida unidad : todasLasUnidades) {
-                if ("LED".equalsIgnoreCase(unidad.getTipo())) {
-                    leds.add(unidad);
+                boolean nuevoEstado = switchLuces.isChecked();
+                List<UnidadDeSalida> leds = new ArrayList<>();
+                for (UnidadDeSalida unidad : todasLasUnidades) {
+                    if ("LED".equalsIgnoreCase(unidad.getTipo())) {
+                        leds.add(unidad);
+                    }
                 }
-            }
+
 
             if (leds.isEmpty()) {
                 Toast.makeText(getContext(), "No hay luces para controlar", Toast.LENGTH_SHORT).show();
@@ -96,7 +97,6 @@ public class DispositivosFragment extends Fragment {
                         });
             }
         });
-
 
         cargarDatosFirebase();
 
@@ -141,23 +141,24 @@ public class DispositivosFragment extends Fragment {
                         todasLasUnidades.add(unidad);
                     }
                 }
+                if (binding != null && isAdded()) {
+                    binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
+                    binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
+                    binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
 
-                binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
-                binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
-                binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
+                    verificarEstadoModoSeguro();
 
-                verificarEstadoModoSeguro();
-
-                boolean todasEncendidas = true;
-                for (UnidadDeSalida unidad : todasLasUnidades) {
-                    if ("LED".equalsIgnoreCase(unidad.getTipo()) && !unidad.getEstado()) {
-                        todasEncendidas = false;
-                        break;
+                    boolean todasEncendidas = true;
+                    for (UnidadDeSalida unidad : todasLasUnidades) {
+                        if ("LED".equalsIgnoreCase(unidad.getTipo()) && !unidad.getEstado()) {
+                            todasEncendidas = false;
+                            break;
+                        }
                     }
-                }
-                switchLuces.setChecked(todasEncendidas);
+                    switchLuces.setChecked(todasEncendidas);
 
-                btnModoSeguro.setOnClickListener(v -> modoSeguro());
+                    btnModoSeguro.setOnClickListener(v -> modoSeguro());
+                }
             }
 
             @Override
@@ -207,13 +208,6 @@ public class DispositivosFragment extends Fragment {
                 Toast.makeText(getContext(), "Error al cargar sensores de gas", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void actualizarEstadoDispositivo(UnidadDeSalida luz, boolean nuevoEstado) {
-        DatabaseReference dbRef = FirebaseDatabase.getInstance()
-                .getReference("unidadesSalida")
-                .child(luz.getId());
-        dbRef.child("estado").setValue(nuevoEstado);
     }
 
     private void verificarEstadoModoSeguro() {
@@ -292,9 +286,12 @@ public class DispositivosFragment extends Fragment {
                                                                     FirebaseAuth.getInstance().getCurrentUser().getEmail() : "Sistema"),
                                                     Toast.LENGTH_LONG).show();
                                             btnModoSeguro.setEnabled(true);
-                                            btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
-                                            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                                                    ContextCompat.getColor(getContext(), R.color.green_safe)));
+                                            if (isAdded() && getContext() != null) {
+                                                btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
+                                                btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                                                        ContextCompat.getColor(getContext(), R.color.green_safe)));
+                                            }
+
                                         });
                             }
                         })
