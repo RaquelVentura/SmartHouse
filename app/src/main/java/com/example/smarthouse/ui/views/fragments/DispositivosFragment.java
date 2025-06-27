@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.DHT11;
@@ -37,6 +37,7 @@ import java.util.List;
 public class DispositivosFragment extends Fragment {
     private FragmentDispositivosBinding binding;
     private Button btnModoSeguro;
+    private Switch switchLuces;
     private List<UnidadDeSalida> todasLasUnidades = new ArrayList<>();
     private List<DHT11> listDHT11 = new ArrayList<>();
     private List<MQ2> listaMQ2 = new ArrayList<>();
@@ -47,18 +48,58 @@ public class DispositivosFragment extends Fragment {
         binding = FragmentDispositivosBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        switchLuces = binding.switchLuces;
         btnModoSeguro = binding.btnCerrarCasa;
         btnModoSeguro.setCompoundDrawablesWithIntrinsicBounds(
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_security),
                 null, null, null);
 
-        binding.recyclerLeds.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerServo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerDHT11.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerSensorGas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        if (binding != null && isAdded()) {
+            binding.recyclerLeds.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerServo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerDHT11.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerSensorGas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+            binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        }
+        switchLuces.setOnClickListener(v -> {
+            if (todasLasUnidades.isEmpty()) {
+                Toast.makeText(getContext(), "Dispositivos aún no cargados", Toast.LENGTH_SHORT).show();
+                return;
+            }
+                boolean nuevoEstado = switchLuces.isChecked();
+                List<UnidadDeSalida> leds = new ArrayList<>();
+                for (UnidadDeSalida unidad : todasLasUnidades) {
+                    if ("LED".equalsIgnoreCase(unidad.getTipo())) {
+                        leds.add(unidad);
+                    }
+                }
+
+
+            if (leds.isEmpty()) {
+                Toast.makeText(getContext(), "No hay luces para controlar", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            final int total = leds.size();
+            final int[] actualizados = {0};
+            for (UnidadDeSalida led : leds) {
+                led.setEstado(nuevoEstado);
+                FirebaseDatabase.getInstance()
+                        .getReference("unidadesSalida")
+                        .child(led.getId())
+                        .child("estado")
+                        .setValue(nuevoEstado)
+                        .addOnCompleteListener(task -> {
+                            actualizados[0]++;
+                            if (actualizados[0] == total) {
+                                Toast.makeText(getContext(), nuevoEstado ? "Luces encendidas" : "Luces apagadas", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
 
         cargarDatosFirebase();
+
         DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
         modoSeguroRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -100,14 +141,24 @@ public class DispositivosFragment extends Fragment {
                         todasLasUnidades.add(unidad);
                     }
                 }
+                if (binding != null && isAdded()) {
+                    binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
+                    binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
+                    binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
 
-                binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
-                binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
-                binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
+                    verificarEstadoModoSeguro();
 
-                verificarEstadoModoSeguro();
+                    boolean todasEncendidas = true;
+                    for (UnidadDeSalida unidad : todasLasUnidades) {
+                        if ("LED".equalsIgnoreCase(unidad.getTipo()) && !unidad.getEstado()) {
+                            todasEncendidas = false;
+                            break;
+                        }
+                    }
+                    switchLuces.setChecked(todasEncendidas);
 
-                btnModoSeguro.setOnClickListener(v -> modoSeguro());
+                    btnModoSeguro.setOnClickListener(v -> modoSeguro());
+                }
             }
 
             @Override
@@ -147,7 +198,9 @@ public class DispositivosFragment extends Fragment {
                         listaMQ2.add(sensorGas);
                     }
                 }
-                binding.recyclerSensorGas.setAdapter(new adaptadorSensorGas(listaMQ2, getContext()));
+                if (binding != null && isAdded()) {
+                    binding.recyclerSensorGas.setAdapter(new adaptadorSensorGas(listaMQ2, getContext()));
+                }
             }
 
             @Override
@@ -198,6 +251,7 @@ public class DispositivosFragment extends Fragment {
             btnModoSeguro.setEnabled(true);
         });
     }
+
     private void activarModoSeguro() {
         DatabaseReference modoSeguroRef = FirebaseDatabase.getInstance().getReference("modoSeguro");
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("unidadesSalida");
@@ -232,9 +286,12 @@ public class DispositivosFragment extends Fragment {
                                                                     FirebaseAuth.getInstance().getCurrentUser().getEmail() : "Sistema"),
                                                     Toast.LENGTH_LONG).show();
                                             btnModoSeguro.setEnabled(true);
-                                            btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
-                                            btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                                                    ContextCompat.getColor(getContext(), R.color.green_safe)));
+                                            if (isAdded() && getContext() != null) {
+                                                btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
+                                                btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
+                                                        ContextCompat.getColor(getContext(), R.color.green_safe)));
+                                            }
+
                                         });
                             }
                         })
