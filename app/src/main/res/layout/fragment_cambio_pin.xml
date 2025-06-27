@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="20dp"
-    tools:context=".ui.views.fragments.CambioPinFragment">
+    tools:context=".ui.views.dialogs.CambioPinFragment">
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/edtPinActual"

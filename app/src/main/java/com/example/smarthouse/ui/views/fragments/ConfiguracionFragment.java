@@ -7,17 +7,19 @@ import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.ui.views.dialogs.CambioPinFragment;
+import com.example.smarthouse.ui.views.dialogs.TerminosYCondicionesFragment;
 
 public class ConfiguracionFragment extends DialogFragment {
     private CardView btnTemaClaro, btnTemaOscuro, btnTemaSistema;
-    private TextView btnCambiarContrasenia, btnCambiarPin;
+    private TextView  btnCambiarPin, btnTerminosYCondiciones;
     private int temaActual;
 
     public ConfiguracionFragment() {
@@ -37,19 +39,21 @@ public class ConfiguracionFragment extends DialogFragment {
         btnTemaClaro = view.findViewById(R.id.btnTemaClaro);
         btnTemaOscuro = view.findViewById(R.id.btnTemaOscuro);
         btnTemaSistema = view.findViewById(R.id.btnTemaSistema);
-        btnCambiarContrasenia= view.findViewById(R.id.btnCambiarContrasena);
         btnCambiarPin = view.findViewById(R.id.btnCambiarPin);
-        btnCambiarContrasenia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnTerminosYCondiciones = view.findViewById(R.id.btnTerminosYCondiciones);
 
-            }
-        });
         btnCambiarPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CambioPinFragment cambioPinFragment = new CambioPinFragment();
                 cambioPinFragment.show(getChildFragmentManager(), "CambioPinDialog");
+            }
+        });
+        btnTerminosYCondiciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TerminosYCondicionesFragment terminosYCondicionesFragment = new TerminosYCondicionesFragment();
+                terminosYCondicionesFragment.show(getChildFragmentManager(), "TerminosYCondicionesDialog");
             }
         });
         // Configurar botones

@@ -1,4 +1,4 @@
-package com.example.smarthouse.ui.views.fragments;
+package com.example.smarthouse.ui.views.dialogs;
 
 import android.os.Bundle;
 import android.text.TextUtils;
