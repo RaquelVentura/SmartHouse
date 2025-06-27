@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurface"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Términos y Condiciones"
+        android:textColor="?attr/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/tvTitulo"
+        app:layout_constraintBottom_toTopOf="@id/btnCerrarDialogTerminosYCOndicones"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvContenido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="8dp"
+            android:padding="4dp"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            android:text="1. ACEPTACIÓN DE LOS TÉRMINOS\nAl utilizar esta aplicación, usted acepta cumplir con estos términos y condiciones en su totalidad.\n\n2. USO DE LA APLICACIÓN\n2.1. La aplicación está destinada para uso personal y no comercial.\n2.2. No debe utilizar la aplicación para actividades ilegales o no autorizadas.\n\n3. CUENTAS DE USUARIO\n3.1. Usted es responsable de mantener la confidencialidad de su cuenta y contraseña.\n3.2. Usted acepta notificarnos inmediatamente cualquier uso no autorizado de su cuenta.\n\n4. PROPIEDAD INTELECTUAL\n4.1. Todo el contenido de la aplicación está protegido por derechos de autor.\n4.2. No puede copiar, modificar o distribuir el contenido sin autorización.\n\n5. LIMITACIÓN DE RESPONSABILIDAD\n5.1. La aplicación se proporciona 'tal cual' sin garantías de ningún tipo.\n5.2. No seremos responsables por daños indirectos o consecuentes.\n\n6. MODIFICACIONES\n6.1. Nos reservamos el derecho de modificar estos términos en cualquier momento.\n6.2. El uso continuado después de los cambios constituye aceptación de los mismos.\n\n7. TERMINACIÓN\nPodemos suspender o terminar su acceso a la aplicación sin previo aviso por violaciones de estos términos.\n\n8. LEGISLACIÓN APLICABLE\nEstos términos se rigen por las leyes del país donde opera nuestra empresa.\n\n9. CONTACTO\nPara preguntas sobre estos términos, contáctenos a: soporte@tudominio.com" />
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btnCerrarDialogTerminosYCOndicones"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:minHeight="52dp"
+        android:text="Aceptar"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

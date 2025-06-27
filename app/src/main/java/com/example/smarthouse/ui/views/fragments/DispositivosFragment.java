@@ -53,7 +53,7 @@ public class DispositivosFragment extends Fragment {
         btnModoSeguro.setCompoundDrawablesWithIntrinsicBounds(
                 ContextCompat.getDrawable(getContext(), R.drawable.ic_security),
                 null, null, null);
-
+        //verifica que los fragmentos no sean nulos
         if (binding != null && isAdded()) {
             binding.recyclerLeds.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerServo.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -104,28 +104,32 @@ public class DispositivosFragment extends Fragment {
         modoSeguroRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!isAdded() || getContext() == null) return;
+
                 Boolean estado = snapshot.getValue(Boolean.class);
                 if (Boolean.TRUE.equals(estado)) {
                     btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
                     btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                            ContextCompat.getColor(getContext(), R.color.green_safe)));
+                            ContextCompat.getColor(requireContext(), R.color.green_safe)));
                 } else {
                     btnModoSeguro.setText("ACTIVAR MODO SEGURO");
                     btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                            ContextCompat.getColor(getContext(), R.color.red_danger)));
+                            ContextCompat.getColor(requireContext(), R.color.red_danger)));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al leer modo seguro", Toast.LENGTH_SHORT).show();
+                if (isAdded() && getContext() != null) {
+                    Toast.makeText(getContext(), "Error al leer modo seguro", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         return root;
     }
 
     private void cargarDatosFirebase() {
+        //referencias de los nodos de la bd
         DatabaseReference refDHT11 = FirebaseDatabase.getInstance().getReference("DHT11");
         DatabaseReference refMQ2 = FirebaseDatabase.getInstance().getReference("mq2");
         DatabaseReference refUnidades = FirebaseDatabase.getInstance().getReference("unidadesSalida");
@@ -141,6 +145,7 @@ public class DispositivosFragment extends Fragment {
                         todasLasUnidades.add(unidad);
                     }
                 }
+                //verifica que los fragmentos no sean nulos y les asiga el adaptador correspondiente a cada recyclearView
                 if (binding != null && isAdded()) {
                     binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
                     binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));

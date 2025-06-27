@@ -6,32 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Alarma {
-    private String id;
     private String fecha;
     private String hora;
     private String tipoEvento;
-    private String usuarioEmail;
     private String resultado;
     private String ubicacion;
 
     public Alarma() {}
 
-    public Alarma(String id, String fecha, String hora, String tipoEvento, String usuarioEmail, String resultado, String ubicacion) {
-        this.id = id;
+    public Alarma(String fecha, String hora, String tipoEvento, String resultado, String ubicacion) {
         this.fecha = fecha;
         this.hora = hora;
         this.tipoEvento = tipoEvento;
-        this.usuarioEmail = usuarioEmail;
         this.resultado = resultado;
         this.ubicacion = ubicacion;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFecha() {
@@ -58,14 +46,6 @@ public class Alarma {
         this.tipoEvento = tipoEvento;
     }
 
-    public String getUsuarioEmail() {
-        return usuarioEmail;
-    }
-
-    public void setUsuarioEmail(String usuarioEmail) {
-        this.usuarioEmail = usuarioEmail;
-    }
-
     public String getResultado() {
         return resultado;
     }
@@ -84,20 +64,11 @@ public class Alarma {
 
     public Map<String, Object> toMap() {
         Map<String, Object> map = new HashMap<>();
-        map.put("id", id);
         map.put("fecha", fecha);
         map.put("hora", hora);
-        map.put("tipoEvento", tipoEvento);
-        map.put("usuarioEmail", usuarioEmail);
         map.put("resultado", resultado);
+        map.put("tipoEvento", tipoEvento);
         map.put("ubicacion", ubicacion);
         return map;
-    }
-    public static Alarma fromDataSnapshot(DataSnapshot snapshot) {
-        Alarma acceso = snapshot.getValue(Alarma.class);
-        if (acceso != null) {
-            acceso.setId(snapshot.getKey());
-        }
-        return acceso;
     }
 }
