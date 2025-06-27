@@ -6,13 +6,87 @@
     android:layout_height="match_parent"
     tools:context=".ui.views.fragments.ReportesFragment">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="reportes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Título -->
+            <TextView
+                android:id="@+id/tvTituloReporteAlarnas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reporte de alarmas (últimos 7 días)"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="12dp" />
+
+            <!-- Gráfica de Gas/Humo -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartAlarmas"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Resumen Gas/Humo -->
+            <TextView
+                android:id="@+id/tvResumenAlarmas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen:"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
+
+            <!-- Gráfica de Apertura modo seguro -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartApertura"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Resumen Apertura modo seguro -->
+            <TextView
+                android:id="@+id/tvResumenApertura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen:"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
+
+            <!-- Gráfica de Temperatura -->
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chartTemperatura"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Resumen de Temperatura -->
+            <TextView
+                android:id="@+id/tvResumenTemperatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen:"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
+
+
+            <!-- Botón para exportar a PDF -->
+            <Button
+                android:id="@+id/btnExportarPDF"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exportar reporte a PDF"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/azul_claro"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
