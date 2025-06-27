@@ -16,6 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter() // Necesario para itextg, para PDF
+        maven { url 'https://jitpack.io' } // Para gráficas
     }
 }
 
