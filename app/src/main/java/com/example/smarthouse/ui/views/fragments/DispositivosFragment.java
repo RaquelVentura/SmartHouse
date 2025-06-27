@@ -104,24 +104,27 @@ public class DispositivosFragment extends Fragment {
         modoSeguroRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!isAdded() || getContext() == null) return;
+
                 Boolean estado = snapshot.getValue(Boolean.class);
                 if (Boolean.TRUE.equals(estado)) {
                     btnModoSeguro.setText("DESACTIVAR MODO SEGURO");
                     btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                            ContextCompat.getColor(getContext(), R.color.green_safe)));
+                            ContextCompat.getColor(requireContext(), R.color.green_safe)));
                 } else {
                     btnModoSeguro.setText("ACTIVAR MODO SEGURO");
                     btnModoSeguro.setBackgroundTintList(ColorStateList.valueOf(
-                            ContextCompat.getColor(getContext(), R.color.red_danger)));
+                            ContextCompat.getColor(requireContext(), R.color.red_danger)));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al leer modo seguro", Toast.LENGTH_SHORT).show();
+                if (isAdded() && getContext() != null) {
+                    Toast.makeText(getContext(), "Error al leer modo seguro", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
         return root;
     }
 

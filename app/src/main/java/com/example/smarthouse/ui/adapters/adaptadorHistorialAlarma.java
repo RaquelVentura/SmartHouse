@@ -1,5 +1,7 @@
 package com.example.smarthouse.ui.adapters;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,19 +9,24 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.Alarma;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHistorialAlarma.HistorialAccesoViewHolder> implements Filterable {
-
     private List<Alarma> listaAlarmas;
     private List<Alarma> listaHistorialAccesosFiltrada;
     private Context context;
@@ -60,6 +67,8 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
                 return "Detección de gas";
             case "MODO_SEGURO":
                 return "Modo seguro";
+            case "Intento_de_acceso_fallido":
+                return "Intento de acceso fallido";
             default:
                 return tipoCrudo.replace("_", " ").toLowerCase()
                         .replaceFirst(".", tipoCrudo.substring(0,1).toUpperCase());
@@ -70,6 +79,7 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
     public int getItemCount() {
         return listaHistorialAccesosFiltrada != null ? listaHistorialAccesosFiltrada.size() : 0;
     }
+
 
     public void actualizarDatos(List<Alarma> nuevasHistorialAccesos) {
         List<Alarma> listaOrdenada = new ArrayList<>(nuevasHistorialAccesos);

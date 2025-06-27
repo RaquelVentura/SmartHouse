@@ -65,11 +65,11 @@ public class HistorialAlarmasFragment extends Fragment {
     }
 
     private void cargarAlarmasDesdeFirebase() {
-        alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas");
+        DatabaseReference alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas");
         alarmasRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaAlarmas.clear();
+                List<Alarma> listaAlarmas = new ArrayList<>();
                 for (DataSnapshot alarmaSnapshot : snapshot.getChildren()) {
                     Alarma alarma = alarmaSnapshot.getValue(Alarma.class);
                     if (alarma != null) {
