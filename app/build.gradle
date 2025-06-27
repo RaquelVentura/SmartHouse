@@ -53,4 +53,9 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
+    // Dependencias para graficar
+    //implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    //implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.itextpdf:itextg:5.5.10'
 }
