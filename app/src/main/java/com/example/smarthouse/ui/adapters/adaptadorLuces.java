@@ -1,7 +1,11 @@
 package com.example.smarthouse.ui.adapters;
 
+import android.app.AlarmManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -132,6 +136,7 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
     }
 
     private void abrirDialogProgramacion(View v, UnidadDeSalida luz) {
+        verificarPermisoAlarmas();
         FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
@@ -175,6 +180,16 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
             lbEstadoDispositivo = itemView.findViewById(R.id.lbEstadoDispositivo);
             btnCambiarEstadoDispositivo = itemView.findViewById(R.id.btnCambiarEstadoDispositivo);
             btnAbrirDialogProgramarCambio = itemView.findViewById(R.id.btnAbrirDialogProgramarCambio);
+        }
+    }
+    private void verificarPermisoAlarmas() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
         }
     }
 }

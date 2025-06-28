@@ -1,7 +1,10 @@
 package com.example.smarthouse.ui.views.dialogs;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.smarthouse.R;
-import com.example.smarthouse.data.helpers.CambiosDispositivosHelper;
-import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.UnidadDeSalida;
+import com.example.smarthouse.ui.receivers.EjecutarCambioReceiver;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -71,15 +73,12 @@ public class DispositivosDialogFragment extends DialogFragment {
         title.setText(String.format("Programar %s", dispositivoNombre));
 
         RadioButton radioAccion1 = view.findViewById(R.id.radioAccion1);
-        RadioButton radioAccion2 = view.findViewById(R.id.radioAccion2);
         radioGroupEstado = view.findViewById(R.id.radioGroupEstado);
 
         if ("LED".equals(dispositivoTipo)) {
             radioAccion1.setText(estadoActual ? "Apagar" : "Encender");
-            radioAccion2.setText(estadoActual ? "Mantener encendido" : "Mantener apagado");
         } else {
             radioAccion1.setText(estadoActual ? "Cerrar" : "Abrir");
-            radioAccion2.setText(estadoActual ? "Mantener abierto" : "Mantener cerrado");
         }
 
         btnFecha = view.findViewById(R.id.btnSeleccionarFecha);
@@ -122,6 +121,7 @@ public class DispositivosDialogFragment extends DialogFragment {
                 true);
         timePicker.show();
     }
+
     private void programarCambioDispositivo() {
         if (fechaSeleccionada == null || horaSeleccionada == null) {
             Toast.makeText(getContext(), "Seleccione fecha y hora", Toast.LENGTH_SHORT).show();
@@ -131,30 +131,63 @@ public class DispositivosDialogFragment extends DialogFragment {
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
             Date fechaHora = sdf.parse(fechaSeleccionada + " " + horaSeleccionada);
-            long timestamp = fechaHora != null ? fechaHora.getTime() : System.currentTimeMillis();
+            if (fechaHora == null || fechaHora.before(new Date())) {
+                Toast.makeText(getContext(), "No se puede programar en el pasado", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-            boolean nuevoEstado = radioGroupEstado.getCheckedRadioButtonId() == R.id.radioAccion1 ?
-                    !estadoActual : estadoActual;
+            long timestamp = fechaHora.getTime();
+            boolean nuevoEstado = radioGroupEstado.getCheckedRadioButtonId() == R.id.radioAccion1 ? !estadoActual : estadoActual;
 
-            UnidadDeSalida unidad = new UnidadDeSalida(
-                    dispositivoId,
-                    dispositivoNombre,
-                    estadoActual,
-                    dispositivoTipo
-            );
+            String cambioId = FirebaseDatabase.getInstance().getReference().push().getKey();
+            String usuarioId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            CambiosDispositivosHelper.registrarCambio(
-                    unidad,
-                    nuevoEstado,
-                    "programado",
-                    timestamp
-            );
+            Map<String, Object> datosCambio = new HashMap<>();
+            datosCambio.put("id", cambioId);
+            datosCambio.put("usuarioId", usuarioId);
+            datosCambio.put("idUnidadSalida", dispositivoId);
+            datosCambio.put("nombreDispositivo", dispositivoNombre);
+            datosCambio.put("tipoDispositivo", dispositivoTipo);
+            datosCambio.put("estado", null);
+            datosCambio.put("fecha", fechaSeleccionada);
+            datosCambio.put("hora", horaSeleccionada);
+            datosCambio.put("timestamp", timestamp);
+            datosCambio.put("tipoCambio", "programado");
+            datosCambio.put("ejecutado", false);
 
-            Toast.makeText(getContext(), "Cambio programado correctamente", Toast.LENGTH_SHORT).show();
-            dismiss();
+            DatabaseReference refCambios = FirebaseDatabase.getInstance().getReference("cambiosDispositivos").child(cambioId);
+            refCambios.setValue(datosCambio).addOnSuccessListener(unused -> {
+                Toast.makeText(getContext(), "Cambio programado correctamente", Toast.LENGTH_SHORT).show();
+                programarAlarma(timestamp, cambioId);
+                dismiss();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "Error al guardar cambio", Toast.LENGTH_SHORT).show();
+            });
+
         } catch (Exception e) {
             Toast.makeText(getContext(), "Error en formato de fecha/hora", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
+        }
+    }
+
+    private void programarAlarma(long timestamp, String idCambio) {
+        Intent intent = new Intent(requireContext(), EjecutarCambioReceiver.class);
+        intent.putExtra("idCambio", idCambio);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                requireContext(),
+                idCambio.hashCode(),
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(getContext().ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    timestamp,
+                    pendingIntent
+            );
         }
     }
 }
