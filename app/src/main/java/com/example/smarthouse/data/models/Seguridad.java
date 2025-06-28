@@ -1,28 +1,40 @@
 package com.example.smarthouse.data.models;
 
 public class Seguridad {
-    private String fecha;
-    private String hora;
-    private String resultado;
+    private String Fecha;
+    private String Hora;
+    private String Resultado;
 
     public Seguridad() {
     }
 
     public Seguridad(String fecha, String hora, String resultado) {
-        this.fecha = fecha;
-        this.hora = hora;
-        this.resultado = resultado;
+        Fecha = fecha;
+        Hora = hora;
+        Resultado = resultado;
+    }
+
+    public String getFecha() {
+        return Fecha;
     }
 
     public void setFecha(String fecha) {
-        this.fecha = fecha;
+        Fecha = fecha;
+    }
+
+    public String getHora() {
+        return Hora;
     }
 
     public void setHora(String hora) {
-        this.hora = hora;
+        Hora = hora;
+    }
+
+    public String getResultado() {
+        return Resultado;
     }
 
     public void setResultado(String resultado) {
-        this.resultado = resultado;
+        Resultado = resultado;
     }
 }
