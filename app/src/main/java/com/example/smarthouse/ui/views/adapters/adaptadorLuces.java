@@ -1,10 +1,9 @@
-package com.example.smarthouse.ui.adapters;
+package com.example.smarthouse.ui.views.adapters;
 
 import android.app.AlarmManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,10 +32,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesViewHolder> {
 

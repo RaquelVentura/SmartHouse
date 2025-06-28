@@ -1,4 +1,4 @@
-package com.example.smarthouse.ui.adapters;
+package com.example.smarthouse.ui.views.adapters;
 
 import android.content.Context;
 import android.util.Log;

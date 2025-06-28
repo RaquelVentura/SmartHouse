@@ -18,22 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.FirebaseDatabase;
-
 public class HistorialAccesosFragment extends Fragment {
     private RecyclerView recyclerAccesos;
     private adaptadorAccesos adapter;
     private List<Seguridad> listaAccesos = new ArrayList<>();
+    private List<String> listaKeys = new ArrayList<>();
 
-    public HistorialAccesosFragment() {
-    }
-public static HistorialAccesosFragment newInstance(String param1, String param2) {
-        HistorialAccesosFragment fragment = new HistorialAccesosFragment();
-        return fragment;
-    }
+    public HistorialAccesosFragment() {}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static HistorialAccesosFragment newInstance(String param1, String param2) {
+        return new HistorialAccesosFragment();
     }
 
     @Override
@@ -42,7 +36,8 @@ public static HistorialAccesosFragment newInstance(String param1, String param2)
         View view = inflater.inflate(R.layout.fragment_historial_accesos, container, false);
 
         recyclerAccesos = view.findViewById(R.id.recyclerAccesosPuerta);
-        adapter = new adaptadorAccesos(listaAccesos, requireContext());
+
+        adapter = new adaptadorAccesos(listaAccesos, listaKeys, requireContext());
         recyclerAccesos.setLayoutManager(new LinearLayoutManager(requireContext()));
         recyclerAccesos.setAdapter(adapter);
 
@@ -57,14 +52,19 @@ public static HistorialAccesosFragment newInstance(String param1, String param2)
                     @Override
                     public void onDataChange(@NonNull com.google.firebase.database.DataSnapshot snapshot) {
                         listaAccesos.clear();
+                        listaKeys.clear();
 
                         for (com.google.firebase.database.DataSnapshot ds : snapshot.getChildren()) {
+                            String key = ds.getKey();
+
                             String fecha = ds.child("Fecha").getValue(String.class);
                             String hora = ds.child("Hora").getValue(String.class);
                             String resultado = ds.child("Resultado").getValue(String.class);
 
                             Seguridad acceso = new Seguridad(fecha, hora, resultado);
+
                             listaAccesos.add(acceso);
+                            listaKeys.add(key);
                         }
 
                         adapter.notifyDataSetChanged();
@@ -76,5 +76,4 @@ public static HistorialAccesosFragment newInstance(String param1, String param2)
                     }
                 });
     }
-
 }

@@ -1,6 +1,4 @@
-package com.example.smarthouse.ui.adapters;
-
-import static java.security.AccessController.getContext;
+package com.example.smarthouse.ui.views.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,11 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.Alarma;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,12 +23,14 @@ import java.util.List;
 
 public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHistorialAlarma.HistorialAccesoViewHolder> implements Filterable {
     private List<Alarma> listaAlarmas;
-    private List<Alarma> listaHistorialAccesosFiltrada;
+    private List<Alarma> listaFiltrada;
+    private List<String> listaKeys;
     private Context context;
 
-    public adaptadorHistorialAlarma(List<Alarma> listaAlarmas, Context context) {
+    public adaptadorHistorialAlarma(List<Alarma> listaAlarmas, List<String> listaKeys, Context context) {
         this.listaAlarmas = listaAlarmas;
-        this.listaHistorialAccesosFiltrada = new ArrayList<>(listaAlarmas);
+        this.listaFiltrada = new ArrayList<>(listaAlarmas);
+        this.listaKeys = new ArrayList<>(listaKeys);
         this.context = context;
     }
 
@@ -41,13 +38,13 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
     @Override
     public HistorialAccesoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_accesos_alarmas, parent, false);
+                .inflate(R.layout.item_alarmas, parent, false);
         return new HistorialAccesoViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HistorialAccesoViewHolder holder, int position) {
-        Alarma alarma = listaHistorialAccesosFiltrada.get(position);
+        Alarma alarma = listaFiltrada.get(position);
 
         holder.lbFecha.setText(alarma.getFecha() != null ? alarma.getFecha() : "--/--/----");
         holder.lbHora.setText(alarma.getHora() != null ? alarma.getHora() : "--:--");
@@ -57,6 +54,34 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
 
         String ubicacion = alarma.getUbicacion() != null ? alarma.getUbicacion() : "No especificada";
         holder.lbUbicacion.setText("Ubicación: " + ubicacion);
+
+        holder.btnEliminar.setOnClickListener(v -> {
+            new android.app.AlertDialog.Builder(context)
+                    .setTitle("Confirmar eliminación")
+                    .setMessage("¿Deseas eliminar este registro de alarma?")
+                    .setPositiveButton("Sí", (dialog, which) -> {
+                        int index = holder.getAdapterPosition();
+                        if (index != RecyclerView.NO_POSITION) {
+                            String key = listaKeys.get(index);
+                            FirebaseDatabase.getInstance()
+                                    .getReference("alarmas")
+                                    .child(key)
+                                    .removeValue()
+                                    .addOnSuccessListener(aVoid -> {
+                                        listaAlarmas.remove(index);
+                                        listaFiltrada.remove(index);
+                                        listaKeys.remove(index);
+                                        notifyItemRemoved(index);
+                                        notifyItemRangeChanged(index, listaFiltrada.size());
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(context, "Error al eliminar en Firebase", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
     }
 
     private String formatearTipoEvento(String tipoCrudo) {
@@ -77,15 +102,13 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
 
     @Override
     public int getItemCount() {
-        return listaHistorialAccesosFiltrada != null ? listaHistorialAccesosFiltrada.size() : 0;
+        return listaFiltrada != null ? listaFiltrada.size() : 0;
     }
 
-
-    public void actualizarDatos(List<Alarma> nuevasHistorialAccesos) {
-        List<Alarma> listaOrdenada = new ArrayList<>(nuevasHistorialAccesos);
-        Collections.sort(listaOrdenada, (o1, o2) -> (o2.getFecha() + o2.getHora()).compareTo(o1.getFecha() + o1.getHora()));
-        this.listaAlarmas = listaOrdenada;
-        this.listaHistorialAccesosFiltrada = new ArrayList<>(listaOrdenada);
+    public void actualizarDatos(List<Alarma> nuevasAlarmas, List<String> nuevasKeys) {
+        this.listaAlarmas = new ArrayList<>(nuevasAlarmas);
+        this.listaFiltrada = new ArrayList<>(nuevasAlarmas);
+        this.listaKeys = new ArrayList<>(nuevasKeys);
         notifyDataSetChanged();
     }
 
@@ -94,34 +117,31 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<Alarma> filteredList = new ArrayList<>();
+                List<Alarma> filtrada = new ArrayList<>();
 
                 if (constraint == null || constraint.length() == 0) {
-                    filteredList.addAll(listaAlarmas);
+                    filtrada.addAll(listaAlarmas);
                 } else {
-                    String filterPattern = constraint.toString().toLowerCase().trim();
-
+                    String patron = constraint.toString().toLowerCase().trim();
                     for (Alarma item : listaAlarmas) {
-                        if ((item.getFecha() != null && item.getFecha().toLowerCase().contains(filterPattern)) ||
-                                (item.getHora() != null && item.getHora().toLowerCase().contains(filterPattern)) ||
-                                (item.getTipoEvento() != null && item.getTipoEvento().toLowerCase().contains(filterPattern)) ||
-                                (item.getUbicacion() != null && item.getUbicacion().toLowerCase().contains(filterPattern))) {
-                            filteredList.add(item);
+                        if ((item.getFecha() != null && item.getFecha().toLowerCase().contains(patron)) ||
+                                (item.getHora() != null && item.getHora().toLowerCase().contains(patron)) ||
+                                (item.getTipoEvento() != null && item.getTipoEvento().toLowerCase().contains(patron)) ||
+                                (item.getUbicacion() != null && item.getUbicacion().toLowerCase().contains(patron))) {
+                            filtrada.add(item);
                         }
                     }
                 }
 
-                Collections.sort(filteredList, (o1, o2) -> (o2.getFecha() + o2.getHora()).compareTo(o1.getFecha() + o1.getHora()));
-
                 FilterResults results = new FilterResults();
-                results.values = filteredList;
+                results.values = filtrada;
                 return results;
             }
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                listaHistorialAccesosFiltrada.clear();
-                listaHistorialAccesosFiltrada.addAll((List<Alarma>) results.values);
+                listaFiltrada.clear();
+                listaFiltrada.addAll((List<Alarma>) results.values);
                 notifyDataSetChanged();
             }
         };
@@ -129,6 +149,7 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
 
     public static class HistorialAccesoViewHolder extends RecyclerView.ViewHolder {
         TextView lbFecha, lbHora, lbTipo, lbUbicacion;
+        ImageButton btnEliminar;
 
         public HistorialAccesoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -136,6 +157,7 @@ public class adaptadorHistorialAlarma extends RecyclerView.Adapter<adaptadorHist
             lbHora = itemView.findViewById(R.id.lbHoraAlarma);
             lbTipo = itemView.findViewById(R.id.lbTipoAlarma);
             lbUbicacion = itemView.findViewById(R.id.lbUbicacionAlarma);
+            btnEliminar = itemView.findViewById(R.id.btnEliminarAlarma);
         }
     }
 }
