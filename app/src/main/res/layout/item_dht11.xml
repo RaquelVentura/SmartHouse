@@ -106,17 +106,28 @@
                 android:textSize="16sp"
                 tools:text="24°C"/>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnCambiarEstadoVentilador"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ON/OFF ventilador" />
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnCambiarEstadoVentilador"
+                android:layout_width="145dp"
+                android:layout_height="wrap_content"
+                android:text="ON/OFF" />
+
+            <ImageButton
+                android:id="@+id/btnCambiarEstadoVentiladorProgramado"
+                android:layout_width="43dp"
+                android:layout_height="35dp"
+                app:srcCompat="@drawable/icon_reloj" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/btnModoAutomaticoVentiladores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="mod automatico ON/OFF" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

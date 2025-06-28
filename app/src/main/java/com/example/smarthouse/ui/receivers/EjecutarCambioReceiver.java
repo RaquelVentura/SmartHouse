@@ -29,9 +29,14 @@ public class EjecutarCambioReceiver extends BroadcastReceiver {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String idUnidad = snapshot.child("idUnidadSalida").getValue(String.class);
+                String tipoDispositivo = snapshot.child("tipoDispositivo").getValue(String.class);
 
-                if (idUnidad != null) {
-                    DatabaseReference unidadRef = FirebaseDatabase.getInstance().getReference("unidadesSalida").child(idUnidad).child("estado");
+                if (idUnidad != null && tipoDispositivo != null) {
+                    String ruta = tipoDispositivo.equalsIgnoreCase("DHT11") ? "DHT11" : "unidadesSalida";
+                    DatabaseReference unidadRef = FirebaseDatabase.getInstance()
+                            .getReference(ruta)
+                            .child(idUnidad)
+                            .child("estado");
 
                     unidadRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -57,7 +62,7 @@ public class EjecutarCambioReceiver extends BroadcastReceiver {
                         }
                     });
                 } else {
-                    Log.w("EjecutarCambio", "ID de unidad nulo, no se puede ejecutar el cambio.");
+                    Log.w("EjecutarCambio", "ID de unidad o tipo de dispositivo nulo.");
                 }
             }
 

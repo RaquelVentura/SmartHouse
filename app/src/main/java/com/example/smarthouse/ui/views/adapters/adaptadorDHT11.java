@@ -1,21 +1,29 @@
 package com.example.smarthouse.ui.views.adapters;
 
+import android.app.AlarmManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.DHT11;
+import com.example.smarthouse.ui.views.dialogs.DispositivosDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -66,6 +74,10 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
                     });
         });
 
+        holder.btnCambiarEstadoVentiladorProgramado.setOnClickListener(v -> {
+            abrirDialogProgramacion(v, dht11);
+        });
+
         holder.btnModoAutomatico.setOnClickListener(v -> {
             String modoActual = dht11.getModo();
             String nuevoModo = "manual".equalsIgnoreCase(modoActual) ? "automatico" : "manual";
@@ -104,6 +116,7 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
         TextView lbHumedad, lbTemperatura, lbUbicacion;
         ImageView imgDHT11;
         Button btnCambiarEstadoVentilador, btnModoAutomatico;
+        ImageButton btnCambiarEstadoVentiladorProgramado;
 
         public DHT11ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,6 +126,7 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
             imgDHT11 = itemView.findViewById(R.id.imgDTH11);
             btnCambiarEstadoVentilador = itemView.findViewById(R.id.btnCambiarEstadoVentilador);
             btnModoAutomatico = itemView.findViewById(R.id.btnModoAutomaticoVentiladores);
+            btnCambiarEstadoVentiladorProgramado = itemView.findViewById(R.id.btnCambiarEstadoVentiladorProgramado);
         }
     }
 
@@ -147,9 +161,11 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
         if (modo != null && modo.trim().equalsIgnoreCase("automatico")) {
             //aqui con esa propiedad GONE se oculta el boton que no estara dispponible si esta en modo automatico
             holder.btnCambiarEstadoVentilador.setVisibility(View.GONE);
+            holder.btnCambiarEstadoVentiladorProgramado.setVisibility(View.GONE);
             holder.btnModoAutomatico.setText("Activar modo manual");
         } else {
             holder.btnCambiarEstadoVentilador.setVisibility(View.VISIBLE);
+            holder.btnCambiarEstadoVentiladorProgramado.setVisibility(View.VISIBLE);
 
             Boolean estado = dht11.getEstado();
             holder.btnCambiarEstadoVentilador.setText(
@@ -159,7 +175,6 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
             holder.btnModoAutomatico.setText("Activar modo automático");
         }
     }
-
 
     private void registrarCambioDispositivo(DHT11 dht11, boolean nuevoEstado, String tipoCambio) {
         DatabaseReference cambiosRef = FirebaseDatabase.getInstance()
@@ -184,7 +199,7 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
                 usuarioId,
                 usuarioNombre,
                 System.currentTimeMillis(),
-                true
+                tipoCambio.equals("inmediato")
         );
 
         cambiosRef.setValue(cambio)
@@ -192,6 +207,36 @@ public class adaptadorDHT11 extends RecyclerView.Adapter<adaptadorDHT11.DHT11Vie
                         Log.d("Firebase", "Cambio de ventilador registrado: " + dht11.getUbicacion()))
                 .addOnFailureListener(e ->
                         Log.e("Firebase", "Error al registrar cambio de ventilador", e));
+    }
+
+    private void abrirDialogProgramacion(View v, DHT11 sensor) {
+        verificarPermisoAlarmas();
+        FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            Toast.makeText(v.getContext(), "Debes iniciar sesión para programar cambios", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        DispositivosDialogFragment dialog = DispositivosDialogFragment.newInstance(
+                sensor.getId(),
+                "DHT11",
+                sensor.getUbicacion(),
+                sensor.getEstado()
+        );
+
+        dialog.show(fragmentManager, "DispositivosDialog");
+    }
+
+    private void verificarPermisoAlarmas() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        }
     }
 
     private String obtenerFechaActual() {
