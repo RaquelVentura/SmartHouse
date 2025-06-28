@@ -148,7 +148,7 @@ public class DispositivosDialogFragment extends DialogFragment {
             datosCambio.put("idUnidadSalida", dispositivoId);
             datosCambio.put("nombreDispositivo", dispositivoNombre);
             datosCambio.put("tipoDispositivo", dispositivoTipo);
-            datosCambio.put("estado", null);
+            datosCambio.put("estado", estadoActual);
             datosCambio.put("fecha", fechaSeleccionada);
             datosCambio.put("hora", horaSeleccionada);
             datosCambio.put("timestamp", timestamp);
