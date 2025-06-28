@@ -2,6 +2,7 @@ package com.example.smarthouse.ui.views.fragments;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.DHT11;
 import com.example.smarthouse.data.models.MQ2;
 import com.example.smarthouse.data.models.UnidadDeSalida;
@@ -25,6 +27,7 @@ import com.example.smarthouse.ui.views.adapters.adaptadorSensorGas;
 import com.example.smarthouse.ui.views.adapters.adaptadorServo;
 import com.example.smarthouse.ui.views.adapters.adapterSensorLamina;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,19 +64,20 @@ public class DispositivosFragment extends Fragment {
             binding.recyclerSensorGas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
             binding.recyclerVentanas.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         }
+
         switchLuces.setOnClickListener(v -> {
             if (todasLasUnidades.isEmpty()) {
                 Toast.makeText(getContext(), "Dispositivos aún no cargados", Toast.LENGTH_SHORT).show();
                 return;
             }
-                boolean nuevoEstado = switchLuces.isChecked();
-                List<UnidadDeSalida> leds = new ArrayList<>();
-                for (UnidadDeSalida unidad : todasLasUnidades) {
-                    if ("LED".equalsIgnoreCase(unidad.getTipo())) {
-                        leds.add(unidad);
-                    }
-                }
 
+            boolean nuevoEstado = switchLuces.isChecked();
+            List<UnidadDeSalida> leds = new ArrayList<>();
+            for (UnidadDeSalida unidad : todasLasUnidades) {
+                if ("LED".equalsIgnoreCase(unidad.getTipo())) {
+                    leds.add(unidad);
+                }
+            }
 
             if (leds.isEmpty()) {
                 Toast.makeText(getContext(), "No hay luces para controlar", Toast.LENGTH_SHORT).show();
@@ -82,6 +86,7 @@ public class DispositivosFragment extends Fragment {
 
             final int total = leds.size();
             final int[] actualizados = {0};
+
             for (UnidadDeSalida led : leds) {
                 led.setEstado(nuevoEstado);
                 FirebaseDatabase.getInstance()
@@ -90,13 +95,18 @@ public class DispositivosFragment extends Fragment {
                         .child("estado")
                         .setValue(nuevoEstado)
                         .addOnCompleteListener(task -> {
+                            registrarCambioDispositivo(led, nuevoEstado, "Cambio desde switch general");
+
                             actualizados[0]++;
                             if (actualizados[0] == total) {
-                                Toast.makeText(getContext(), nuevoEstado ? "Luces encendidas" : "Luces apagadas", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(),
+                                        nuevoEstado ? "Luces encendidas" : "Luces apagadas",
+                                        Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
+
 
         cargarDatosFirebase();
 
@@ -319,4 +329,44 @@ public class DispositivosFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    private void registrarCambioDispositivo(UnidadDeSalida unidad, boolean nuevoEstado, String tipoCambio) {
+        DatabaseReference cambiosRef = FirebaseDatabase.getInstance()
+                .getReference("cambiosDispositivos")
+                .push();
+
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String usuarioId = currentUser != null ? currentUser.getUid() : "anonimo";
+        String usuarioNombre = currentUser != null ?
+                (currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Usuario") :
+                "Anónimo";
+
+        CambioDispositivo cambio = new CambioDispositivo(
+                cambiosRef.getKey(),
+                tipoCambio,
+                obtenerFechaActual(),
+                obtenerHoraActual(),
+                nuevoEstado,
+                unidad.getId(),
+                unidad.getTipo(),
+                unidad.getUbicacion(),
+                usuarioId,
+                usuarioNombre,
+                System.currentTimeMillis(),
+                true
+        );
+
+
+        cambiosRef.setValue(cambio.toMap())
+                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Cambio registrado"))
+                .addOnFailureListener(e -> Log.e("Firebase", "Error al registrar cambio", e));
+    }
+    private String obtenerFechaActual() {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(new java.util.Date());
+    }
+    private String obtenerHoraActual() {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm:ss");
+        return sdf.format(new java.util.Date());
+    }
+
 }
