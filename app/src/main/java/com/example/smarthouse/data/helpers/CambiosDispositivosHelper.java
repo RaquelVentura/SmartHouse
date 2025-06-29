@@ -25,6 +25,7 @@ public class CambiosDispositivosHelper {
                 FirebaseDatabase.getInstance().getReference("cambiosDispositivos");
         private static final DatabaseReference dispositivosRef =
                 FirebaseDatabase.getInstance().getReference("unidadesSalida");
+        private static final DatabaseReference dht11Ref = FirebaseDatabase.getInstance().getReference("DHT11");
         private static ValueEventListener cambiosListener;
 
         public static void iniciarEscuchaCambiosProgramados() {
@@ -107,7 +108,13 @@ public class CambiosDispositivosHelper {
     }
 
     private static void ejecutarCambioProgramado(CambioDispositivo cambio) {
-        DatabaseReference dispositivoRef = dispositivosRef.child(cambio.getIdUnidadSalida());
+        DatabaseReference dispositivoRef;
+
+        if ("DHT11".equalsIgnoreCase(cambio.getTipoDispositivo())) {
+            dispositivoRef = dht11Ref.child(cambio.getIdUnidadSalida());
+        } else {
+            dispositivoRef = dispositivosRef.child(cambio.getIdUnidadSalida());
+        }
 
         dispositivoRef.child("estado").setValue(cambio.isEstado())
                 .addOnSuccessListener(aVoid -> {

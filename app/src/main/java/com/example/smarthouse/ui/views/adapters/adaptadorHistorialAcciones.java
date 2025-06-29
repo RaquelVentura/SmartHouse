@@ -1,11 +1,15 @@
-package com.example.smarthouse.ui.adapters;
+// adaptadorHistorialAcciones.java
+package com.example.smarthouse.ui.views.adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -13,17 +17,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.CambioDispositivo;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class adaptadorHistorialAcciones extends RecyclerView.Adapter<adaptadorHistorialAcciones.HistorialAccionesViewHolder> {
 
     private List<CambioDispositivo> historial;
+    private List<String> keys;
     private Context context;
+    private String usuarioLogueado;
 
-    public adaptadorHistorialAcciones(Context context, List<CambioDispositivo> historial) {
+    public adaptadorHistorialAcciones(Context context, List<CambioDispositivo> historial, List<String> keys, String usuarioLogueado) {
         this.context = context;
         this.historial = historial;
+        this.keys = keys;
+        this.usuarioLogueado = usuarioLogueado;
     }
 
     @NonNull
@@ -38,16 +47,12 @@ public class adaptadorHistorialAcciones extends RecyclerView.Adapter<adaptadorHi
     public void onBindViewHolder(@NonNull HistorialAccionesViewHolder holder, int position) {
         CambioDispositivo accion = historial.get(position);
 
-        // Validaciones de null para todos los campos críticos
-        String tipoCambio = accion.getTipoCambio() != null ? accion.getTipoCambio() : "manual";
-        String tipoDispositivo = accion.getTipoDispositivo() != null ? accion.getTipoDispositivo() : "";
-        String nombreDispositivo = accion.getNombreDispositivo() != null ? accion.getNombreDispositivo() : "";
-        String usuarioNombre = accion.getUsuarioNombre() != null ? accion.getUsuarioNombre() : "";
-
         // 1. Tipo de acción
+        String tipoCambio = accion.getTipoCambio() != null ? accion.getTipoCambio() : "manual";
         holder.tvTipoAccion.setText(tipoCambio.equals("programado") ? "Programado" : "Manual");
 
-        // 2. Icono y texto de estado
+        // 2. Estado e ícono
+        String tipoDispositivo = accion.getTipoDispositivo() != null ? accion.getTipoDispositivo() : "";
         if (accion.isEstado()) {
             holder.ivEstadoIcon.setImageResource(R.drawable.ic_toogle_on);
             holder.tvEstado.setText(tipoDispositivo.equals("LED") ? "Encendido" : "Abierto");
@@ -58,25 +63,54 @@ public class adaptadorHistorialAcciones extends RecyclerView.Adapter<adaptadorHi
             holder.tvEstado.setTextColor(ContextCompat.getColor(context, R.color.red));
         }
 
-        // 3. Dispositivo afectado
+        // 3. Dispositivo
+        String nombreDispositivo = accion.getNombreDispositivo() != null ? accion.getNombreDispositivo() : "";
         holder.tvDispositivo.setText(String.format("%s • %s", tipoDispositivo, nombreDispositivo));
 
-        // 4. Fecha y hora (también deberías validar estos campos)
+        // 4. Fecha y hora
         holder.tvFecha.setText(accion.getFecha() != null ? accion.getFecha() : "");
         holder.tvHora.setText(accion.getHora() != null ? accion.getHora() : "");
 
-        // 5. Usuario y estado de ejecución
-        holder.tvUsuario.setText(usuarioNombre);
+        // 5. Usuario - mostramos el usuario logueado aquí
+        holder.tvUsuario.setText(accion.getUsuarioNombre() != null ? accion.getUsuarioNombre() : "Desconocido");
 
+        // 6. Ejecución
         if (accion.isEjecutado()) {
             holder.tvEjecucion.setText("Completado");
             holder.tvEjecucion.setBackgroundResource(R.drawable.bg_status_completed);
+            holder.tvEjecucion.setTextColor(ContextCompat.getColor(context, R.color.green));
         } else {
             holder.tvEjecucion.setText("Pendiente");
             holder.tvEjecucion.setBackgroundResource(R.drawable.bg_status_pending);
+            holder.tvEjecucion.setTextColor(ContextCompat.getColor(context, R.color.orange));
         }
-        holder.tvEjecucion.setTextColor(ContextCompat.getColor(context,
-                accion.isEjecutado() ? R.color.green : R.color.orange));
+
+        holder.btnEliminar.setOnClickListener(v -> {
+            new AlertDialog.Builder(context)
+                    .setTitle("Confirmar eliminación")
+                    .setMessage("¿Deseas eliminar este registro?")
+                    .setPositiveButton("Sí", (dialog, which) -> {
+                        int pos = holder.getAdapterPosition();
+                        if (pos != RecyclerView.NO_POSITION && pos < keys.size()) {
+                            String keyToDelete = keys.get(pos);
+                            FirebaseDatabase.getInstance()
+                                    .getReference("cambiosDispositivos")
+                                    .child(keyToDelete)
+                                    .removeValue()
+                                    .addOnSuccessListener(aVoid -> {
+                                        historial.remove(pos);
+                                        keys.remove(pos);
+                                        notifyItemRemoved(pos);
+                                        notifyItemRangeChanged(pos, historial.size());
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(context, "Error al eliminar", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
+        });
     }
 
     @Override
@@ -84,9 +118,10 @@ public class adaptadorHistorialAcciones extends RecyclerView.Adapter<adaptadorHi
         return historial != null ? historial.size() : 0;
     }
 
-    public class HistorialAccionesViewHolder extends RecyclerView.ViewHolder {
+    public static class HistorialAccionesViewHolder extends RecyclerView.ViewHolder {
         TextView tvTipoAccion, tvEstado, tvDispositivo, tvFecha, tvHora, tvUsuario, tvEjecucion;
         ImageView ivEstadoIcon;
+        ImageButton btnEliminar;
 
         public HistorialAccionesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -98,12 +133,13 @@ public class adaptadorHistorialAcciones extends RecyclerView.Adapter<adaptadorHi
             tvUsuario = itemView.findViewById(R.id.tvUsuario);
             tvEjecucion = itemView.findViewById(R.id.tvEjecucion);
             ivEstadoIcon = itemView.findViewById(R.id.ivEstadoIcon);
+            btnEliminar = itemView.findViewById(R.id.btnEliminarRegitroAcciones);
         }
     }
 
-    // Método para actualizar datos
-    public void actualizarDatos(List<CambioDispositivo> nuevosDatos) {
+    public void actualizarDatos(List<CambioDispositivo> nuevosDatos, List<String> nuevasKeys) {
         this.historial = nuevosDatos;
+        this.keys = nuevasKeys;
         notifyDataSetChanged();
     }
 }

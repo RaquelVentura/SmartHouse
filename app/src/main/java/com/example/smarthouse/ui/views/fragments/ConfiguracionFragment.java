@@ -1,6 +1,7 @@
 package com.example.smarthouse.ui.views.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.ui.views.dialogs.CambioPinFragment;
@@ -19,7 +21,7 @@ import com.example.smarthouse.ui.views.dialogs.TerminosYCondicionesFragment;
 
 public class ConfiguracionFragment extends DialogFragment {
     private CardView btnTemaClaro, btnTemaOscuro, btnTemaSistema;
-    private TextView  btnCambiarPin, btnTerminosYCondiciones;
+    private TextView  btnCambiarPin, btnTerminosYCondiciones, btnSoporte;
     private int temaActual;
 
     public ConfiguracionFragment() {
@@ -41,6 +43,7 @@ public class ConfiguracionFragment extends DialogFragment {
         btnTemaSistema = view.findViewById(R.id.btnTemaSistema);
         btnCambiarPin = view.findViewById(R.id.btnCambiarPin);
         btnTerminosYCondiciones = view.findViewById(R.id.btnTerminosYCondiciones);
+        btnSoporte = view.findViewById(R.id.btnSoporte);
 
         btnCambiarPin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +57,23 @@ public class ConfiguracionFragment extends DialogFragment {
             public void onClick(View v) {
                 TerminosYCondicionesFragment terminosYCondicionesFragment = new TerminosYCondicionesFragment();
                 terminosYCondicionesFragment.show(getChildFragmentManager(), "TerminosYCondicionesDialog");
+            }
+        });
+        //nota: si tenemos tiempo, podemos cambiar a pagina web en lugar de correo
+        btnSoporte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("message/rfc822");
+                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"soportesmarthouse24@gmail.com"});
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Consulta desde la app");
+                intent.putExtra(Intent.EXTRA_TEXT, "Hola, tengo una duda sobre...");
+
+                try {
+                    v.getContext().startActivity(Intent.createChooser(intent, "Enviar correo a soporte"));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    Toast.makeText(v.getContext(), "No hay aplicaciones de correo instaladas", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         // Configurar botones

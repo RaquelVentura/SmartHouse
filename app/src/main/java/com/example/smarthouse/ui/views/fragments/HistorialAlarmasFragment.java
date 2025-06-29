@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,22 +15,22 @@ import android.widget.Toast;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.Alarma;
-import com.example.smarthouse.ui.adapters.adaptadorHistorialAlarma;
+import com.example.smarthouse.ui.views.adapters.adaptadorHistorialAlarma;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
 public class HistorialAlarmasFragment extends Fragment {
 
     private RecyclerView recyclerAlarmas;
     private SearchView searchView;
     private adaptadorHistorialAlarma adaptador;
     private List<Alarma> listaAlarmas = new ArrayList<>();
-    private DatabaseReference alarmasRef;
+    private List<String> listaKeys = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,7 +41,7 @@ public class HistorialAlarmasFragment extends Fragment {
         searchView = view.findViewById(R.id.searchViewAlarmasAccesos);
 
         recyclerAlarmas.setLayoutManager(new LinearLayoutManager(getContext()));
-        adaptador = new adaptadorHistorialAlarma(listaAlarmas, getContext());
+        adaptador = new adaptadorHistorialAlarma(listaAlarmas, listaKeys, getContext());
         recyclerAlarmas.setAdapter(adaptador);
 
         cargarAlarmasDesdeFirebase();
@@ -65,24 +64,28 @@ public class HistorialAlarmasFragment extends Fragment {
     }
 
     private void cargarAlarmasDesdeFirebase() {
-        DatabaseReference alarmasRef = FirebaseDatabase.getInstance().getReference("alarmas");
-        alarmasRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                List<Alarma> listaAlarmas = new ArrayList<>();
-                for (DataSnapshot alarmaSnapshot : snapshot.getChildren()) {
-                    Alarma alarma = alarmaSnapshot.getValue(Alarma.class);
-                    if (alarma != null) {
-                        listaAlarmas.add(alarma);
-                    }
-                }
-                adaptador.actualizarDatos(listaAlarmas);
-            }
+        FirebaseDatabase.getInstance().getReference("alarmas")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        listaAlarmas.clear();
+                        listaKeys.clear();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Error al cargar alarmas", Toast.LENGTH_SHORT).show();
-            }
-        });
+                        for (DataSnapshot alarmaSnapshot : snapshot.getChildren()) {
+                            Alarma alarma = alarmaSnapshot.getValue(Alarma.class);
+                            if (alarma != null) {
+                                listaAlarmas.add(alarma);
+                                listaKeys.add(alarmaSnapshot.getKey());
+                            }
+                        }
+
+                        adaptador.actualizarDatos(listaAlarmas, listaKeys);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Error al cargar alarmas", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

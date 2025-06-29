@@ -1,4 +1,4 @@
-package com.example.smarthouse.ui.adapters;
+package com.example.smarthouse.ui.views.adapters;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,17 +9,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.UnidadDeSalida;
-import com.example.smarthouse.ui.views.dialogs.DispositivosDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
