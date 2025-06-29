@@ -19,13 +19,28 @@
 
             <!-- Título -->
             <TextView
-                android:id="@+id/tvTituloReporteAlarnas"
+                android:id="@+id/tvTituloReporteAlarmas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reporte de alarmas (últimos 7 días)"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:paddingBottom="12dp" />
+
+            <!-- Distribución por tipo de alarma -->
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chartDistribucionAlarmas"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/tvResumenDistribucion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen distribución:"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
 
             <!-- Gráfica de Gas/Humo -->
             <com.github.mikephil.charting.charts.BarChart
@@ -59,6 +74,32 @@
                 android:textSize="16sp"
                 android:paddingBottom="24dp" />
 
+            <!-- Gráfica de Apertura de ventana -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartVentana"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Resumen Apertura de ventana -->
+            <TextView
+                android:id="@+id/tvResumenVentana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen:"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
+
+            <!-- Título temperaturas -->
+            <TextView
+                android:id="@+id/tvTituloReporteTemperaruras"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reporte de temperaturas (últimos 7 días)"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="12dp" />
+
             <!-- Gráfica de Temperatura -->
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/chartTemperatura"
@@ -75,6 +116,31 @@
                 android:textSize="16sp"
                 android:paddingBottom="24dp" />
 
+            <!-- Título leds -->
+            <TextView
+                android:id="@+id/tvTituloReporteLuces"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reporte encendido de luces (últimos 7 días)"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="12dp" />
+
+            <!-- Grafica de encendido de leds -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/chartLeds"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Resumen de encendido de leds -->
+            <TextView
+                android:id="@+id/tvResumenLeds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Resumen luces encendidas"
+                android:textSize="16sp"
+                android:paddingBottom="24dp" />
 
             <!-- Botón para exportar a PDF -->
             <Button
