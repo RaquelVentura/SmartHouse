@@ -3,6 +3,7 @@ package com.example.smarthouse.ui.views.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -73,20 +74,16 @@ public class ConfiguracionFragment extends DialogFragment {
                 terminosYCondicionesFragment.show(getChildFragmentManager(), "TerminosYCondicionesDialog");
             }
         });
-        //nota: si tenemos tiempo, podemos cambiar a pagina web en lugar de correo
         btnSoporte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("message/rfc822");
-                intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"soportesmarthouse24@gmail.com"});
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Consulta desde la app");
-                intent.putExtra(Intent.EXTRA_TEXT, "Hola, tengo una duda sobre...");
-
+                String url = "https://smarthouseweb-production-3c2d.up.railway.app/soporte/";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
                 try {
-                    v.getContext().startActivity(Intent.createChooser(intent, "Enviar correo a soporte"));
+                    v.getContext().startActivity(intent);
                 } catch (android.content.ActivityNotFoundException ex) {
-                    Toast.makeText(v.getContext(), "No hay aplicaciones de correo instaladas", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "No hay navegador disponible", Toast.LENGTH_SHORT).show();
                 }
             }
         });
