@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
@@ -16,13 +18,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.smarthouse.R;
+import com.example.smarthouse.data.models.Usuario;
 import com.example.smarthouse.ui.views.dialogs.CambioPinFragment;
 import com.example.smarthouse.ui.views.dialogs.TerminosYCondicionesFragment;
+import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ConfiguracionFragment extends DialogFragment {
     private CardView btnTemaClaro, btnTemaOscuro, btnTemaSistema;
     private TextView  btnCambiarPin, btnTerminosYCondiciones, btnSoporte;
     private int temaActual;
+    private MaterialCardView cardCambiarPin;
 
     public ConfiguracionFragment() {
 
@@ -44,7 +56,9 @@ public class ConfiguracionFragment extends DialogFragment {
         btnCambiarPin = view.findViewById(R.id.btnCambiarPin);
         btnTerminosYCondiciones = view.findViewById(R.id.btnTerminosYCondiciones);
         btnSoporte = view.findViewById(R.id.btnSoporte);
+        cardCambiarPin = view.findViewById(R.id.cardCambiarPin);
 
+        ocultarPinSiNoEsAdmin();
         btnCambiarPin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,5 +160,30 @@ public class ConfiguracionFragment extends DialogFragment {
     private void saveTheme(int modo) {
         SharedPreferences prefs = requireActivity().getSharedPreferences("AppSettings", Context.MODE_PRIVATE);
         prefs.edit().putInt("theme_mode", modo).apply();
+    }
+    private void ocultarPinSiNoEsAdmin() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid);
+
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Usuario usuario = snapshot.getValue(Usuario.class);
+                    if (usuario != null && usuario.getRol() != null) {
+                        String rol = usuario.getRol();
+                        if (!"Administrador".equalsIgnoreCase(rol)) {
+                            cardCambiarPin.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), "Error al obtener rol de usuario", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
