@@ -20,6 +20,7 @@ import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.DHT11;
 import com.example.smarthouse.data.models.MQ2;
 import com.example.smarthouse.data.models.UnidadDeSalida;
+import com.example.smarthouse.data.models.Usuario;
 import com.example.smarthouse.databinding.FragmentDispositivosBinding;
 import com.example.smarthouse.ui.views.adapters.adaptadorDHT11;
 import com.example.smarthouse.ui.views.adapters.adaptadorLuces;
@@ -44,6 +45,7 @@ public class DispositivosFragment extends Fragment {
     private List<UnidadDeSalida> todasLasUnidades = new ArrayList<>();
     private List<DHT11> listDHT11 = new ArrayList<>();
     private List<MQ2> listaMQ2 = new ArrayList<>();
+    private Usuario usuarioActual;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -107,6 +109,7 @@ public class DispositivosFragment extends Fragment {
             }
         });
 
+        cargarUsuarioActual();
 
         cargarDatosFirebase();
 
@@ -135,11 +138,11 @@ public class DispositivosFragment extends Fragment {
                 }
             }
         });
+
         return root;
     }
 
     private void cargarDatosFirebase() {
-        //referencias de los nodos de la bd
         DatabaseReference refDHT11 = FirebaseDatabase.getInstance().getReference("DHT11");
         DatabaseReference refMQ2 = FirebaseDatabase.getInstance().getReference("mq2");
         DatabaseReference refUnidades = FirebaseDatabase.getInstance().getReference("unidadesSalida");
@@ -155,12 +158,8 @@ public class DispositivosFragment extends Fragment {
                         todasLasUnidades.add(unidad);
                     }
                 }
-                //verifica que los fragmentos no sean nulos y les asiga el adaptador correspondiente a cada recyclearView
                 if (binding != null && isAdded()) {
-                    binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades));
-                    binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
-                    binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
-
+                    asignarAdaptadores();
                     verificarEstadoModoSeguro();
 
                     boolean todasEncendidas = true;
@@ -329,16 +328,14 @@ public class DispositivosFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
     private void registrarCambioDispositivo(UnidadDeSalida unidad, boolean nuevoEstado, String tipoCambio) {
         DatabaseReference cambiosRef = FirebaseDatabase.getInstance()
                 .getReference("cambiosDispositivos")
                 .push();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String usuarioId = currentUser != null ? currentUser.getUid() : "anonimo";
-        String usuarioNombre = currentUser != null ?
-                (currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Usuario") :
-                "Anónimo";
+        String usuarioId = usuarioActual != null ? usuarioActual.getId() : "anonimo";
+        String usuarioNombre = usuarioActual != null && usuarioActual.getNombreCompleto() != null ? usuarioActual.getNombreCompleto() : "Anónimo";
 
         CambioDispositivo cambio = new CambioDispositivo(
                 cambiosRef.getKey(),
@@ -355,18 +352,55 @@ public class DispositivosFragment extends Fragment {
                 true
         );
 
-
         cambiosRef.setValue(cambio.toMap())
                 .addOnSuccessListener(aVoid -> Log.d("Firebase", "Cambio registrado"))
                 .addOnFailureListener(e -> Log.e("Firebase", "Error al registrar cambio", e));
     }
+
     private String obtenerFechaActual() {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
         return sdf.format(new java.util.Date());
     }
+
     private String obtenerHoraActual() {
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("HH:mm:ss");
         return sdf.format(new java.util.Date());
     }
 
+    private void cargarUsuarioActual() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) {
+            usuarioActual = null;
+            return;
+        }
+
+        String uid = firebaseUser.getUid();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("usuarios").child(uid);
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                usuarioActual = snapshot.getValue(Usuario.class);
+                if (usuarioActual == null) {
+                    usuarioActual = new Usuario();
+                    usuarioActual.setNombreCompleto("Usuario");
+                    usuarioActual.setId(uid);
+                }
+                asignarAdaptadores();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                usuarioActual = null;
+                asignarAdaptadores();
+            }
+        });
+    }
+
+    private void asignarAdaptadores() {
+        if (binding != null && isAdded()) {
+            binding.recyclerLeds.setAdapter(new adaptadorLuces(getContext(), todasLasUnidades, usuarioActual));
+            binding.recyclerServo.setAdapter(new adaptadorServo(getContext(), todasLasUnidades));
+            binding.recyclerVentanas.setAdapter(new adapterSensorLamina(getContext(), todasLasUnidades));
+        }
+    }
 }
