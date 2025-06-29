@@ -23,9 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthouse.R;
 import com.example.smarthouse.data.models.CambioDispositivo;
 import com.example.smarthouse.data.models.UnidadDeSalida;
+import com.example.smarthouse.data.models.Usuario;
 import com.example.smarthouse.ui.views.dialogs.DispositivosDialogFragment;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -39,9 +39,11 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
 
     private List<UnidadDeSalida> dataLuces;
     private Context context;
+    private Usuario usuario;
 
-    public adaptadorLuces(Context context, List<UnidadDeSalida> todasLasUnidades) {
+    public adaptadorLuces(Context context, List<UnidadDeSalida> todasLasUnidades, Usuario usuario) {
         this.context = context;
+        this.usuario = usuario;
         this.dataLuces = new ArrayList<>();
 
         for (UnidadDeSalida unidad : todasLasUnidades) {
@@ -102,11 +104,8 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
                 .getReference("cambiosDispositivos")
                 .push();
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String usuarioId = currentUser != null ? currentUser.getUid() : "anonimo";
-        String usuarioNombre = currentUser != null ?
-                (currentUser.getDisplayName() != null ? currentUser.getDisplayName() : "Usuario") :
-                "Anónimo";
+        String usuarioId = usuario != null ? usuario.getId() : "anonimo";
+        String usuarioNombre = usuario != null ? usuario.getNombreCompleto() : "Anónimo";
 
         CambioDispositivo cambio = new CambioDispositivo(
                 cambiosRef.getKey(),
@@ -124,12 +123,8 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
         );
 
         cambiosRef.setValue(cambio.toMap())
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("Firebase", "Cambio registrado exitosamente");
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Firebase", "Error al registrar cambio", e);
-                });
+                .addOnSuccessListener(aVoid -> Log.d("Firebase", "Cambio registrado exitosamente"))
+                .addOnFailureListener(e -> Log.e("Firebase", "Error al registrar cambio", e));
     }
 
     private void abrirDialogProgramacion(View v, UnidadDeSalida luz) {
@@ -179,6 +174,7 @@ public class adaptadorLuces extends RecyclerView.Adapter<adaptadorLuces.LucesVie
             btnAbrirDialogProgramarCambio = itemView.findViewById(R.id.btnAbrirDialogProgramarCambio);
         }
     }
+
     private void verificarPermisoAlarmas() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
