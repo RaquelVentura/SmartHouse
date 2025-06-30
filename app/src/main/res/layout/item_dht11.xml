@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
+        android:background="@color/card"
         android:gravity="center_horizontal">
 
         <TextView
@@ -118,9 +119,11 @@
 
             <ImageButton
                 android:id="@+id/btnCambiarEstadoVentiladorProgramado"
-                android:layout_width="43dp"
-                android:layout_height="35dp"
-                app:srcCompat="@drawable/icon_reloj" />
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                app:srcCompat="@drawable/ic_clock" />
         </LinearLayout>
 
         <Button

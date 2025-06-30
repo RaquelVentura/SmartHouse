@@ -4,37 +4,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:background="?attr/colorSurface">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/card">
 
         <LinearLayout
-            android:layout_width="292dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="295dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginBottom="8dp">
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginEnd="8dp"
                     android:src="@drawable/ic_alarm"
-                    app:tint="?attr/colorError" />
+                    app:tint="@color/red_unsafe"
+                    android:layout_marginEnd="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -46,34 +47,34 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="295dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_marginBottom="8dp">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_calendar"
-                    app:tint="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginEnd="4dp" />
 
                 <TextView
                     android:id="@+id/lbFechaAlarma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:text="16/06/2025"
                     android:textColor="?attr/colorOnSurface"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:layout_marginEnd="16dp" />
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginEnd="4dp"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:src="@drawable/ic_clock"
-                    app:tint="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorOnSurface"
+                    android:layout_marginEnd="4dp" />
 
                 <TextView
                     android:id="@+id/lbHoraAlarma"
@@ -86,37 +87,28 @@
 
             <TextView
                 android:id="@+id/lbTipoAlarma"
-                android:layout_width="295dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:text="Tipo: Apertura"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="14sp" />
+
+                android:textSize="14sp"
+                android:layout_marginBottom="4dp" />
 
             <TextView
                 android:id="@+id/lbUbicacionAlarma"
-                android:layout_width="294dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ubicación: Puerta principal"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="?attr/colorPrimary"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:id="@+id/btnEliminarAlarma"
-                android:layout_width="63dp"
-                android:layout_height="72dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Eliminar registro"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
-        </LinearLayout>
-
+        <ImageButton
+            android:id="@+id/btnEliminarAlarma"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Eliminar registro"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

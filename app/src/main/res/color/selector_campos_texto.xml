@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Color cuando tiene foco -->
-    <item android:color="@color/azul" android:state_focused="true" />
-    <!-- Color cuando está habilitado pero sin foco -->
-    <item android:color="@color/gris_oscuro" android:state_enabled="true" />
-    <!-- Color por defecto (por si acaso xd) -->
-    <item android:color="@color/azul_claro" />
-</selector>

@@ -14,8 +14,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="?attr/selectableItemBackground">
+        android:background="@color/card"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/imgSensorGas"

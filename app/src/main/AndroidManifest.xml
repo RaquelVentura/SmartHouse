@@ -23,7 +23,7 @@
             android:name=".ui.views.activities.MenuActivity"
             android:exported="false"
             android:label="@string/title_activity_menu"
-            android:theme="@style/Theme.SmartHouse.NoActionBar" />
+            android:theme="@style/Theme.SmartHouse"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

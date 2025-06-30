@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="220dp"
     android:layout_height="wrap_content"
+    android:background="@color/card"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
     app:cardElevation="2dp">
@@ -13,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@color/card"
         android:padding="12dp"
         android:gravity="center_horizontal">
 
@@ -82,7 +84,7 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                app:srcCompat="@drawable/icon_reloj"
+                app:srcCompat="@drawable/ic_clock"
                 android:contentDescription="Programar"/>
         </LinearLayout>
     </LinearLayout>

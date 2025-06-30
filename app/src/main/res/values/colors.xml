@@ -1,47 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Colores base -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Esquema de color principal -->
+    <color name="primary_500">#1f41bb</color>
+    <color name="primary_400">#00B5F8</color>
+    <color name="primary_300">#19A7CE</color>
+    <color name="primary_200">#AFD3E2</color>
+    <color name="primary_100">#F6F1F1</color>
+
+    <color name="secondary_500">#146C94</color>
+    <color name="secondary_400">#025E7D</color>
+    <color name="card">	#CC7DA8F3</color>
+    <!-- Colores para estados -->
+    <color name="success_500">#4CAF50</color>
+    <color name="success_400">#81C784</color>
+    <color name="success_300">#E8F5E9</color>
+
+    <color name="warning_500">#FF9800</color>
+    <color name="warning_400">#FFE0B2</color>
+    <color name="warning_300">#FFF3E0</color>
+
+    <color name="error_500">#F44336</color>
+    <color name="error_400">#FF5252</color>
+    <color name="error_300">#D32F2F</color>
+
+    <!-- Escala de grises -->
+    <color name="gray_900">#121212</color>
+    <color name="gray_800">#2D2D2D</color>
+    <color name="gray_700">#757575</color>
+    <color name="gray_600">#9E9E9E</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_100">#F5F5F5</color>
+
+    <!-- Colores para componentes específicos -->
     <color name="bg_pantalla_carga">#ecf0f1</color>
-    <color name="azul">#1f41bb</color>
-    <color name="azul_claro">#00B5F8</color>
-    <color name="azul_oscuro">#025E7D</color>
-    <color name="gris_oscuro">#2D2D2D</color>
-    <color name="hint_campos_texto">#2D2D2D</color>
-    <color name="bg_campos_texto">#f1f4ff</color>
-    <color name="bg_icono_formulario">#1f41bb</color>
-    <color name="texto_formulario">#1f41bb</color>
-    <color name="green_safe">#4CAF50</color>
-    <color name="green_safe_light">#81C784</color>
+    <color name="bg_campos_texto">@color/primary_100</color>
+    <color name="hint_campos_texto">@color/gray_800</color>
+    <color name="texto_formulario">@color/primary_500</color>
+    <color name="bg_icono_formulario">@color/primary_500</color>
+    <color name="selector_campos_texto">@color/primary_400</color>
+
+    <!-- Colores para chips -->
+    <color name="chip_mode_secure">#E3F2FD</color>
+    <color name="chip_sensor">@color/success_300</color>
+    <color name="chip_warning">@color/warning_300</color>
+    <color name="chip_background">@color/gray_100</color>
+    <color name="chip_stroke">@color/gray_300</color>
+
+    <!-- Alias para mantener compatibilidad -->
+    <color name="azul">@color/primary</color>
+    <color name="azul_oscuro">@color/secondary_400</color>
+    <color name="azul_claro">#A4C8F0</color>
+    <color name="azul_claro_vivo">@color/primary</color>
+
+    <color name="azul_profundo">@color/secondary_500</color>
+    <color name="celeste_nieve">@color/primary_200</color>
+    <color name="blanco_hielo">@color/primary_100</color>
+
+    <color name="green_safe">@color/success_500</color>
+    <color name="green_safe_light">@color/success_400</color>
     <color name="green_safe_dark">#388E3C</color>
-    <color name="red_unsafe">#F44336</color>
-    <color name="gray_safe_status">#9E9E9E</color>
-    <color name="red_danger">#F44336</color>
-    <color name="gray">#607D8B</color>
-    <color name="green">#4CAF50</color>
-    <color name="red">#F44336</color>
-    <color name="orange">#FF9800</color>
-    <color name="light_green">#E8F5E9</color>
+
+    <color name="red_unsafe">@color/error_500</color>
+    <color name="red_danger">@color/error_500</color>
+    <color name="red_alarm">@color/error_400</color>
+    <color name="rojo_emergencia">@color/error_300</color>
+
+    <color name="gray">@color/gray_600</color>
+    <color name="gray_light">@color/gray_200</color>
+    <color name="gray_medium">@color/gray_500</color>
+    <color name="gray_dark">@color/gray_700</color>
+    <color name="gris_claro">@color/gray_200</color>
+    <color name="gris_medio">@color/gray_500</color>
+    <color name="gris_oscuro">@color/gray_800</color>
+    <color name="negro">@color/gray_900</color>
+
+    <color name="green">@color/success_500</color>
+    <color name="red">@color/error_500</color>
+    <color name="orange">@color/warning_500</color>
+    <color name="light_green">@color/success_300</color>
     <color name="border_green">#C8E6C9</color>
-    <color name="light_orange">#FFF3E0</color>
-    <color name="border_orange">#FFE0B2</color>
+    <color name="light_orange">@color/warning_300</color>
+    <color name="border_orange">@color/warning_400</color>
+
     <color name="primary">#6200EE</color>
     <color name="primary_light">#F1E6FF</color>
-    <color name="green_light">#E8F5E9</color>
-    <color name="chip_mode_secure">#E3F2FD</color>
-    <color name="chip_sensor">#E8F5E9</color>
-    <color name="chip_warning">#FFF3E0</color>
-    <color name="red_alarm">#FF5252</color>
-    <color name="gray_light">#EEEEEE</color>
-    <color name="gray_medium">#9E9E9E</color>
-    <color name="gray_dark">#757575</color>
-    <color name="chip_background">#F5F5F5</color>
-    <color name="chip_stroke">#E0E0E0</color>
-    <color name="blanco_hielo">#F6F1F1</color>
-    <color name="celeste_nieve">#AFD3E2</color>
-    <color name="azul_claro_vivo">#19A7CE</color>
-    <color name="azul_profundo">#146C94</color>
-    <color name="rojo_emergencia">#D32F2F</color>
-    <color name="rojo_emergencia_modo_oscuro">#C62828</color>
-    <color name="gris_medio">#1E1E1E</color>
+    <color name="green_light">@color/success_300</color>
+    <color name="gray_safe_status">@color/gray_500</color>
 </resources>

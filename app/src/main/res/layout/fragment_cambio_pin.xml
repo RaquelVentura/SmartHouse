@@ -27,6 +27,7 @@
         android:layout_height="60dp"
         android:layout_marginTop="12dp"
         android:text="Actualizar PIN"
+        style="@style/EstiloBotonPrincipal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"

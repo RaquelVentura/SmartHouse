@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="hint_campos_texto">#FFFFFF</color>
+    <color name="blanco_hielo">#F6F1F1</color>
+    <color name="celeste_nieve">#AFD3E2</color>
+    <color name="azul_claro_vivo">#00B5F8</color>
+    <color name="azul_profundo">#146C94</color>
+    <color name="azul_claro">#00B5F8</color>
+    <color name="negro">#121212</color>
+    <color name="gris_medio">#1E1E1E</color>
+    <color name="gris_oscuro">#2D2D2D</color>
+    <color name="gris_claro">#3D4149</color>
+    <color name="rojo_emergencia">#C62828</color>
     <color name="bg_campos_texto">#3D4149</color>
-    <color name="bg_icono_formulario">#00B5F8</color>
+    <color name="hint_campos_texto">#FFFFFF</color>
     <color name="texto_formulario">#00B5F8</color>
+    <color name="bg_icono_formulario">#00B5F8</color>
+    <color name="card">	#2D2D2D</color>
 </resources>

@@ -23,6 +23,7 @@
         android:id="@+id/btnNuevoUsuario"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        style="@style/EstiloBotonPrincipal"
         android:text="Nuevo Usuario"
         android:drawableLeft="@drawable/icono_agregar"
         android:layout_marginBottom="35dp"

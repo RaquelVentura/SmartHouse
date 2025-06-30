@@ -5,4 +5,5 @@
     android:padding="16dp"
     android:ellipsize="end"
     android:maxLines="1"
+    android:background="@color/card"
     android:textAppearance="?attr/textAppearanceBodyLarge"/>

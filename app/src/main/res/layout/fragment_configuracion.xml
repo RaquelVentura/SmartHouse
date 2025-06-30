@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
     android:paddingTop="10dp"
     android:paddingHorizontal="16dp"
     tools:context=".ui.views.fragments.ConfiguracionFragment">
@@ -26,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:background="@color/card"
             android:padding="16dp">
 
             <TextView
@@ -57,7 +57,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:background="?attr/colorSurface"
+                        android:background="@color/card"
                         android:orientation="vertical"
                         android:padding="8dp">
 
@@ -93,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:background="?attr/colorSurface"
+                        android:background="@color/card"
                         android:orientation="vertical"
                         android:padding="8dp">
 
@@ -128,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:background="?attr/colorSurface"
+                        android:background="@color/card"
                         android:orientation="vertical"
                         android:padding="8dp">
 
@@ -168,6 +168,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/card"
             android:padding="16dp">
 
             <ImageView
@@ -206,6 +207,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:background="@color/card"
             android:padding="16dp">
 
             <ImageView
@@ -242,6 +244,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:background="@color/card"
             android:orientation="horizontal"
             android:padding="16dp">
 

@@ -7,69 +7,74 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/bg_pantalla_carga"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
+        android:layout_width="204dp"
+        android:layout_height="202dp"
+        android:layout_gravity="center"
+        android:src="@drawable/loading"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tvSubtitulo"
+        app:layout_constraintVertical_bias="0.177" />
 
-        <ImageView
-            android:id="@+id/imgvLogo"
-            android:layout_width="201dp"
-            android:layout_height="135dp"
-            android:layout_marginStart="147dp"
-            android:layout_marginTop="66dp"
-            android:layout_marginEnd="135dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/smart_house" />
+    <TextView
+        android:id="@+id/tvSubtitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Seguridad y Comodidad al alcande de tu mano"
+        android:textColor="@color/azul_claro"
+        android:textSize="15dp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo" />
 
-        <TextView
-            android:id="@+id/tvTitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="33dp"
-            android:gravity="center"
-            android:text="SMART HOUSE"
-            android:textColor="@color/azul_oscuro"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tvSubtitulo"
-            app:layout_constraintTop_toBottomOf="@+id/imgvLogo"
-            tools:layout_editor_absoluteX="158dp" />
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="SMART HOUSE"
+        android:textColor="@color/azul_oscuro"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
-        <!-- Barra de progreso -->
-        <TextView
-            android:id="@+id/tvSubtitulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="23dp"
-            android:layout_marginBottom="90dp"
-            android:gravity="center"
-            android:text="Seguridad y Comodidad al alcande de tu mano"
-            android:textColor="@color/azul_claro"
-            android:textSize="15dp"
-            android:textStyle="italic"
-            app:layout_constraintBottom_toTopOf="@+id/gifImageView"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
-            tools:layout_editor_absoluteX="0dp" />
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gifImageView"
+        app:srcCompat="@drawable/top_background" />
 
-        <pl.droidsonroids.gif.GifImageView
-            android:id="@+id/gifImageView"
-            android:layout_width="204dp"
-            android:layout_height="202dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="170dp"
-            android:src="@drawable/loading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSubtitulo" />
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/top_background" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="199dp"
+        android:layout_height="152dp"
+        android:layout_marginTop="172dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/smart_house" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

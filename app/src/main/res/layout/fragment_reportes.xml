@@ -149,8 +149,7 @@
                 android:layout_height="wrap_content"
                 android:text="Exportar reporte a PDF"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/azul_claro"
-                android:textColor="@android:color/white"
+                style="@style/EstiloBotonPrincipal"
                 android:textStyle="bold" />
 
         </LinearLayout>

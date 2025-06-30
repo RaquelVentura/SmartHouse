@@ -1,66 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/azul_claro_vivo</item>
-        <item name="colorPrimaryVariant">@color/azul_profundo</item>
+        <item name="colorPrimaryContainer">@color/celeste_nieve</item>
         <item name="colorOnPrimary">@color/blanco_hielo</item>
+
         <item name="colorSecondary">@color/celeste_nieve</item>
         <item name="colorOnSecondary">@color/azul_profundo</item>
+
+        <item name="colorSurface">@color/blanco_hielo</item>
+        <item name="colorOnSurface">@color/negro</item>
+        <item name="colorSurfaceVariant">@color/gris_claro</item>
+        <item name="colorOnSurfaceVariant">@color/gris_oscuro</item>
+
         <item name="android:windowBackground">@color/blanco_hielo</item>
         <item name="toolbarStyle">@style/CustomToolbar</item>
+        <item name="navigationViewStyle">@style/NavigationViewStyle</item>
     </style>
 
-    <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
+    <style name="CustomToolbar" parent="Widget.Material3.Toolbar">
         <item name="android:background">@color/azul_profundo</item>
-        <item name="android:minHeight">72dp</item>
         <item name="titleTextColor">@color/blanco_hielo</item>
         <item name="subtitleTextColor">@color/celeste_nieve</item>
-    </style>
-    <style name="NavigationViewStyle" parent="Widget.MaterialComponents.NavigationView">
-        <item name="android:textColorSecondary">@color/blanco_hielo</item>
-        <item name="colorControlNormal">@color/celeste_nieve</item>
-        <item name="colorControlActivated">@color/blanco_hielo</item>
+        <item name="android:minHeight">72dp</item>
+        <item name="titleCentered">true</item>
+        <item name="elevation">4dp</item>
     </style>
 
-    <style name="SectionHeaderText" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="android:textSize">18sp</item>
+    <style name="NavigationViewStyle" parent="Widget.Material3.NavigationView">
+        <item name="android:textColor">@color/azul_claro_vivo</item>
+        <item name="android:textColorSecondary">@color/celeste_nieve</item>
+        <item name="itemIconTint">@color/azul_claro_vivo</item>
+        <item name="itemTextColor">@color/blanco_hielo</item>
+    </style>
+
+    <style name="SectionHeaderText" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:gravity">start</item>
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-        <item name="android:drawablePadding">8dp</item>
     </style>
 
-    <style name="DeviceCardStyle" parent="Widget.MaterialComponents.CardView">
-        <item name="cardElevation">4dp</item>
+    <style name="DeviceCardStyle">
         <item name="cardBackgroundColor">?attr/colorSurface</item>
         <item name="strokeColor">?attr/colorOutline</item>
         <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">6dp</item>
     </style>
 
-    <style name="BodyText" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textSize">16sp</item>
+    <style name="BodyText" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">16dp</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
-    <style name="CaptionText" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="android:textSize">14sp</item>
+    <style name="CaptionText" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">14dp</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
-    <style name="ThemeButton" parent="Widget.AppCompat.Button.Borderless">
+
+    <style name="ThemeButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:background">@drawable/bg_theme_selector</item>
-        <item name="android:textColor">#333333</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:drawablePadding">8dp</item>
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:textSize">12dp</item>
     </style>
 
-    <style name="SettingButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="SettingButton" parent="Widget.Material3.Button.TextButton">
         <item name="android:background">@drawable/bg_setting_selector</item>
-        <item name="android:textColor">#333333</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/azul_claro_vivo</item>
+        <item name="android:textSize">14dp</item>
         <item name="android:gravity">start|center_vertical</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
+    <style name="EstiloInputLogin" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="strokeColor">@color/gray</item>
+        <item name="hintTextColor">@color/hint_campos_texto</item>
+        <item name="android:textColor">@color/texto_formulario</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="EstiloEditTextLogin">
+        <item name="android:textColor">@color/texto_formulario</item>
+        <item name="android:inputType">text</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
+    <style name="EstiloBotonPrincipal" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">@color/azul</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">10dp</item>
+    </style>
+
+    <style name="EstiloTituloLogin">
+        <item name="android:textColor">@color/azul</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Subtítulo login -->
+    <style name="EstiloSubtituloLogin">
+        <item name="android:textColor">@color/azul_claro</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Link olvidaste contraseña -->
+    <style name="EstiloLink">
+        <item name="android:textColor">@color/azul_claro</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
 </resources>

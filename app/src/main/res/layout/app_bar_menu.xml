@@ -16,12 +16,12 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:background="@color/azul_profundo"
+            android:layout_height="64dp"
+            android:background="@drawable/top_bcakground_dos"
             android:minHeight="?attr/actionBarSize"
-            app:titleTextColor="@color/blanco_hielo"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:subtitleTextColor="@color/celeste_nieve"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"/>
+            app:titleTextColor="@color/blanco_hielo" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
