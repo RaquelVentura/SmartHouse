@@ -11,11 +11,12 @@
     </style>
 
     <style name="CustomToolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">@color/azul_profundo</item>
+        <item name="android:background">@drawable/nav_header_gradient</item>
         <item name="android:minHeight">72dp</item>
         <item name="titleTextColor">@color/blanco_hielo</item>
         <item name="subtitleTextColor">@color/celeste_nieve</item>
     </style>
+
     <style name="NavigationViewStyle" parent="Widget.MaterialComponents.NavigationView">
         <item name="android:textColorSecondary">@color/blanco_hielo</item>
         <item name="colorControlNormal">@color/celeste_nieve</item>
@@ -47,6 +48,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
+
     <style name="ThemeButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_theme_selector</item>
         <item name="android:textColor">#333333</item>

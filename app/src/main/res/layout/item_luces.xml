@@ -82,7 +82,7 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="8dp"
-                app:srcCompat="@drawable/icon_reloj"
+                app:srcCompat="@drawable/ic_clock"
                 android:contentDescription="Programar"/>
         </LinearLayout>
     </LinearLayout>

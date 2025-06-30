@@ -10,14 +10,12 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/azul_profundo"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:background="@drawable/nav_header_gradient">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="72dp"
-            android:background="@color/azul_profundo"
             android:minHeight="?attr/actionBarSize"
             app:titleTextColor="@color/blanco_hielo"
             app:subtitleTextColor="@color/celeste_nieve"
