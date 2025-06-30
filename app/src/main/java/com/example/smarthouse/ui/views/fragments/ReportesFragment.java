@@ -342,8 +342,8 @@ public class ReportesFragment extends Fragment {
 
                 for (DataSnapshot nodo : snapshot.getChildren()) {
                     String fecha = nodo.child("fecha").getValue(String.class);
-                    String tempStr = nodo.child("temperatura").getValue(String.class);
-
+                    Object tempRaw = nodo.child("temperatura").getValue();
+                    String tempStr = String.valueOf(tempRaw);
                     if (fecha != null && tempStr != null) {
                         float temp = Float.parseFloat(tempStr);
                         temperaturasPorDia.putIfAbsent(fecha, new ArrayList<>());
